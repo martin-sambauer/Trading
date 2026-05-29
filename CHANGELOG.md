@@ -53,11 +53,11 @@
 
 ## [1.3] 2026-05-28
 ### Hinzugefügt
-- README.md v1.3 — Katya als zweite Traderin integriert
-- KATYA_ONBOARDING.md — vollständige Anleitung für Katya
-- Neue Ordnerstruktur für zwei Trader (`data/traders/martin/`, `data/traders/katya/`)
+- README.md v1.3 — Trader B als zweite Traderin integriert
+- KATYA_ONBOARDING.md — vollständige Anleitung für Trader B
+- Neue Ordnerstruktur für zwei Trader (`data/traders/trader a/`, `data/traders/trader b/`)
 - Vergleichsreport-Konzept (`reports/comparison/`)
-- Screenshots aufgeteilt nach Trader (`screenshots/martin/`, `screenshots/katya/`)
+- Screenshots aufgeteilt nach Trader (`screenshots/trader a/`, `screenshots/trader b/`)
 
 ## [1.4] 2026-05-29
 ### Added
@@ -70,4 +70,4 @@
 ### Changed
 - `method/TERMINOLOGY.md` — fully translated to English
 - `method/HYPOTHESES.md` — fully translated to English
-- README v1.4 — mandatory hypothesis check for every data analysis, JAPAN225 added, Katya fully integrated
+- README v1.4 — mandatory hypothesis check for every data analysis, JAPAN225 added, Trader B fully integrated

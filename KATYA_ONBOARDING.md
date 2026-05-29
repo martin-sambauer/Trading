@@ -1,48 +1,48 @@
 <!-- Version: 1.1 | Letzte Änderung: 2026-05-28 -->
-# Katya Onboarding — Trading Journal
+# Trader B Onboarding — Trading Journal
 
 ---
 
-## Für Katyas KI: Lies das zuerst
+## Für Trader Bs KI: Lies das zuerst
 
-Du arbeitest mit Katya Sambauer. Deine Aufgabe ist es, sie durch dieses Onboarding zu führen und danach täglich ihre Trading-Daten auszuwerten. Hier ist alles was du wissen musst:
+Du arbeitest mit Trader B. Deine Aufgabe ist es, sie durch dieses Onboarding zu führen und danach täglich ihre Trading-Daten auszuwerten. Hier ist alles was du wissen musst:
 
-**Das System:** Martin und Katya handeln parallel. Ihre Daten landen im selben GitHub Repo. Du analysierst Katyas Trades, erstellst Reports und vergleichst ihre Performance mit Martin.
+**Das System:** Trader A und Trader B handeln parallel. Ihre Daten landen im selben GitHub Repo. Du analysierst Trader Bs Trades, erstellst Reports und vergleichst ihre Performance mit Trader A.
 
-**Das Repo:** `https://github.com/martin-sambauer/Trading`
+**Das Repo:** `https://github.com/trader-journal/Trading`
 
 **Pflichtlektüre vor jeder Session:**
 1. `README.md` — das Gesamtsystem
 2. `method/METHOD.md` — die Handelsmethode
 3. `method/TERMINOLOGY.md` — alle Begriffe (Aircushion, Battle Zone, etc.)
 4. `method/HYPOTHESES.md` — aktuelle Hypothesen
-5. `data/traders/katya/master_stats.csv` — Katyas aggregierte Stats (sobald vorhanden)
+5. `data/traders/trader b/master_stats.csv` — Trader Bs aggregierte Stats (sobald vorhanden)
 
-**Katyas Daten liegen in:**
-- `data/traders/katya/trades/YYYY-MM-DD.csv` — tägliche Trades
-- `data/traders/katya/market/YYYY-MM-DD_SYMBOL.csv` — Marktdaten
-- `reports/katya/YYYY-MM-DD/` — Reports
-- `screenshots/katya/` — Chart-Screenshots
+**Trader Bs Daten liegen in:**
+- `data/traders/trader b/trades/YYYY-MM-DD.csv` — tägliche Trades
+- `data/traders/trader b/market/YYYY-MM-DD_SYMBOL.csv` — Marktdaten
+- `reports/trader b/YYYY-MM-DD/` — Reports
+- `screenshots/trader b/` — Chart-Screenshots
 
 **Nach jeder Session:**
 1. Trades aus Balance History CSV parsen
-2. `data/traders/katya/trades/YYYY-MM-DD.csv` erstellen
-3. `data/traders/katya/master_stats.csv` updaten
-4. Report erstellen: `reports/katya/YYYY-MM-DD/report.html`
-5. Standalone Report: `reports/katya/YYYY-MM-DD/report_standalone.html`
-6. Falls Martin am gleichen Tag gehandelt hat → Vergleichsreport: `reports/comparison/YYYY-MM-DD/report.html`
+2. `data/traders/trader b/trades/YYYY-MM-DD.csv` erstellen
+3. `data/traders/trader b/master_stats.csv` updaten
+4. Report erstellen: `reports/trader b/YYYY-MM-DD/report.html`
+5. Standalone Report: `reports/trader b/YYYY-MM-DD/report_standalone.html`
+6. Falls Trader A am gleichen Tag gehandelt hat → Vergleichsreport: `reports/comparison/YYYY-MM-DD/report.html`
 7. Hypothesen und Terminologie updaten falls neue Erkenntnisse
 8. CHANGELOG updaten
 
-**Führe Katya jetzt durch das Onboarding** — fang mit Schritt 1 an und warte auf ihre Bestätigung bevor du weitermachst.
+**Führe Trader B jetzt durch das Onboarding** — fang mit Schritt 1 an und warte auf ihre Bestätigung bevor du weitermachst.
 
 ---
 
-## Hallo Katya! 👋
+## Hallo Trader B! 👋
 
 Ich bin deine KI und ich führe dich jetzt durch das Setup. Das dauert etwa 20 Minuten und danach läuft alles automatisch.
 
-Wir bauen das gleiche System wie Martin — du lieferst täglich deine Trading-Daten, ich analysiere sie und wir vergleichen eure Performances. Sag einfach "weiter" wenn du einen Schritt abgeschlossen hast.
+Wir bauen das gleiche System wie Trader A — du lieferst täglich deine Trading-Daten, ich analysiere sie und wir vergleichen eure Performances. Sag einfach "weiter" wenn du einen Schritt abgeschlossen hast.
 
 ---
 
@@ -56,7 +56,7 @@ GitHub ist wo alle Daten gespeichert werden. Du brauchst einen kostenlosen Accou
 3. Email, Username und Passwort eingeben
 4. Account bestätigen
 
-**Dann:** Schick Martin deinen GitHub Username. Er lädt dich als Collaborator ein — du bekommst eine Email von GitHub, klick auf "Accept invitation".
+**Dann:** Schick Trader A deinen GitHub Username. Er lädt dich als Collaborator ein — du bekommst eine Email von GitHub, klick auf "Accept invitation".
 
 Sag mir deinen GitHub Username wenn du fertig bist, dann machen wir weiter.
 
@@ -91,7 +91,7 @@ Sag "weiter" wenn alles installiert ist.
 
 ```bash
 cd ~/Documents
-git clone https://github.com/martin-sambauer/Trading.git
+git clone https://github.com/trader-journal/Trading.git
 cd Trading
 ```
 
@@ -116,7 +116,7 @@ GitHub braucht einen Token statt Passwort zum Hochladen.
 
 **Dann im Terminal:**
 ```bash
-git remote set-url origin https://DEIN_GITHUB_USERNAME:DEIN_TOKEN@github.com/martin-sambauer/Trading.git
+git remote set-url origin https://DEIN_GITHUB_USERNAME:DEIN_TOKEN@github.com/trader-journal/Trading.git
 ```
 
 Ersetze `DEIN_GITHUB_USERNAME` und `DEIN_TOKEN` mit deinen Werten.
@@ -131,7 +131,7 @@ Du brauchst die Google Drive Desktop App für deine Screenshots.
 1. Geh auf **drive.google.com/drive/download**
 2. App herunterladen und installieren
 3. Mit deinem Google Account einloggen
-4. Im Finder: Google Drive → neuen Ordner anlegen: `Trading_Journal_Katya`
+4. Im Finder: Google Drive → neuen Ordner anlegen: `Trading_Journal_Trader B`
 5. Darin einen Unterordner: `Screenshots`
 
 ---
@@ -186,11 +186,11 @@ Im Paper Trading Panel oben: auf den Account-Namen klicken → Broker wechseln f
 - Stattdessen: **Cmd+Shift+4** auf dem Mac
 - Einen Bereich um den Chart ziehen
 - Screenshot landet automatisch auf dem Desktop
-- Screenshots nach `~/Google Drive/Trading_Journal_Katya/Screenshots/` verschieben
+- Screenshots nach `~/Google Drive/Trading_Journal_Trader B/Screenshots/` verschieben
 
 **4. Alles pushen**
 ```bash
-cd ~/Documents/Trading && ./scripts/update.sh "$(date +%Y-%m-%d) katya session close"
+cd ~/Documents/Trading && ./scripts/update.sh "$(date +%Y-%m-%d) trader b session close"
 ```
 
 ---
@@ -202,10 +202,10 @@ Nach dem Trading öffnest du einen neuen Chat mit mir (deiner KI) und lädst hoc
 - Order History CSV
 - Optional: Screenshots hier im Chat
 
-Ich analysiere alles, erstelle deinen Report und vergleiche mit Martin falls er auch gehandelt hat.
+Ich analysiere alles, erstelle deinen Report und vergleiche mit Trader A falls er auch gehandelt hat.
 
 **Wichtig beim Öffnen eines neuen Chats:** Sag mir kurz:
-> "Ich bin Katya. Bitte lies zuerst die README unter https://github.com/martin-sambauer/Trading"
+> "Ich bin Trader B. Bitte lies zuerst die README unter https://github.com/trader-journal/Trading"
 
 Dann bin ich sofort im Kontext und kann loslegen.
 
@@ -215,7 +215,7 @@ Dann bin ich sofort im Kontext und kann loslegen.
 
 Reports öffnest du immer in **Firefox** (nicht Chrome):
 ```bash
-open -a Firefox ~/Documents/Trading/reports/katya/YYYY-MM-DD/report_standalone.html
+open -a Firefox ~/Documents/Trading/reports/trader b/YYYY-MM-DD/report_standalone.html
 ```
 
 Oder einfach die HTML-Datei im Finder doppelklicken — falls sie in Firefox öffnet, perfekt.
@@ -234,7 +234,7 @@ Der TradingView Kamera-Button speichert die Execution Marks (Pfeile für Ein/Aus
 Kein Problem — einfach nichts hochladen. Die KI weiß dann dass an diesem Tag nicht gehandelt wurde.
 
 **Kann ich meine eigene Methode entwickeln?**
-Ja! Martins Methode in `method/METHOD.md` ist ein Ausgangspunkt. Du kannst deine eigene entwickeln und wir dokumentieren sie parallel.
+Ja! Trader As Methode in `method/METHOD.md` ist ein Ausgangspunkt. Du kannst deine eigene entwickeln und wir dokumentieren sie parallel.
 
 ---
 

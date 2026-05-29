@@ -1,5 +1,5 @@
 <!-- Version: 1.4 | Letzte Änderung: 2026-05-29 -->
-# Trading Journal — Martin & Katya Sambauer
+# Trading Journal — Trader A & Trader B
 
 ## Technical Setup & Recovery
 In case of computer failure or new device: see `TECHSTACK.md` — complete step-by-step recovery guide.
@@ -8,16 +8,16 @@ In case of computer failure or new device: see `TECHSTACK.md` — complete step-
 
 ## For AI Agents: Read This First
 
-This repository is the central brain of the trading development system for Martin and Katya Sambauer.
+This repository is the central brain of the trading development system for Trader A and Trader B.
 Everything is documented so you as an AI can immediately step in and continue seamlessly.
 
 ### File Delivery Rule — ALWAYS FOLLOW
-When delivering updated files to Martin:
+When delivering updated files to Trader A:
 1. Create a ZIP containing ONLY changed files (not the full repo)
 2. Present the ZIP as a single download
 3. Provide ONE terminal command that does everything: unzip + git add + commit + push
-4. Martin does: download ZIP → paste one command → done
-5. Never ask Martin to manually copy, move or rename files
+4. Trader A does: download ZIP → paste one command → done
+5. Never ask Trader A to manually copy, move or rename files
 6. Never deliver more than one ZIP per update
 
 **Template command:**
@@ -31,9 +31,9 @@ cd ~/Downloads && unzip -o ZIPNAME.zip -d ~/Documents/ && cd ~/Documents/Trading
 3. `method/TERMINOLOGY.md` — all terms defined
 4. `method/HYPOTHESES.md` — current behaviour hypotheses
 5. `method/SITUATIONS.md` — documented market situation types
-6. `data/traders/martin/master_stats.csv` — Martin's aggregated performance
-7. `data/traders/katya/master_stats.csv` — Katya's aggregated performance (when available)
-8. Latest report in `reports/martin/` or `reports/katya/`
+6. `data/traders/trader a/master_stats.csv` — Trader A's aggregated performance
+7. `data/traders/trader b/master_stats.csv` — Trader B's aggregated performance (when available)
+8. Latest report in `reports/trader a/` or `reports/trader b/`
 
 ### Hypothesis Check — MANDATORY for every data analysis
 **Every time you analyse trading data, check each open hypothesis:**
@@ -46,8 +46,8 @@ cd ~/Downloads && unzip -o ZIPNAME.zip -d ~/Documents/ && cd ~/Documents/Trading
 Current hypotheses to check: H1, H2, H3, H4, H5
 
 ### AI Instructions per Session Type
-- **Martin solo:** Read `data/traders/martin/` → report in `reports/martin/`
-- **Katya solo:** Read `data/traders/katya/` → report in `reports/katya/`
+- **Trader A solo:** Read `data/traders/trader a/` → report in `reports/trader a/`
+- **Trader B solo:** Read `data/traders/trader b/` → report in `reports/trader b/`
 - **Comparison:** Read both → additional report in `reports/comparison/`
 - **Always:** Update README, METHOD, TERMINOLOGY, HYPOTHESES, SITUATIONS if new insights
 
@@ -55,17 +55,17 @@ Current hypotheses to check: H1, H2, H3, H4, H5
 
 ## The Traders
 
-### Martin Sambauer
+### Trader A
 - Active daytrader, paper trading for method development
 - Goal: develop own analytically described method
 - Main instruments: USTEC, GER40 morning session, JAPAN225 night session
 - Typical trading hours: 07:00–09:00 (GER40), 11:00–14:00 (USTEC), 16:30–17:30 (US30/SPX), 22:00–09:00 JST (JAPAN225)
-- GitHub: martin-sambauer
+- GitHub: trader-journal
 - Local repo: `~/Documents/Trading`
 - Google Drive screenshots: `~/Google Drive/Trading_Journal/Screenshots/`
 
-### Katya Sambauer
-- Active trader, own setup parallel to Martin
+### Trader B
+- Active trader, own setup parallel to Trader A
 - Goal: parallel data collection for behaviour comparison
 - GitHub: to be added as Collaborator
 - Local repo: `~/Documents/Trading` (cloned from same repo)
@@ -96,7 +96,7 @@ Trading/
 ├── README.md                          ← You are here (v1.4)
 ├── CHANGELOG.md                       ← All changes documented
 ├── TECHSTACK.md                       ← Complete technical setup
-├── KATYA_ONBOARDING.md                ← Onboarding guide for Katya
+├── KATYA_ONBOARDING.md                ← Onboarding guide for Trader B
 ├── method/
 │   ├── METHOD.md                      ← Trading method (living document)
 │   ├── TERMINOLOGY.md                 ← All terms in English
@@ -104,29 +104,29 @@ Trading/
 │   └── SITUATIONS.md                  ← Market situation library
 ├── data/
 │   ├── traders/
-│   │   ├── martin/
+│   │   ├── trader a/
 │   │   │   ├── trades/YYYY-MM-DD.csv
 │   │   │   ├── market/YYYY-MM-DD_SYMBOL.csv
 │   │   │   ├── exports/
 │   │   │   └── master_stats.csv
-│   │   └── katya/
+│   │   └── trader b/
 │   │       ├── trades/YYYY-MM-DD.csv
 │   │       ├── market/YYYY-MM-DD_SYMBOL.csv
 │   │       ├── exports/
 │   │       └── master_stats.csv
 ├── reports/
-│   ├── martin/YYYY-MM-DD/report.html
-│   ├── katya/YYYY-MM-DD/report.html
+│   ├── trader a/YYYY-MM-DD/report.html
+│   ├── trader b/YYYY-MM-DD/report.html
 │   └── comparison/YYYY-MM-DD/report.html
 ├── screenshots/
-│   ├── martin/
-│   └── katya/
+│   ├── trader a/
+│   └── trader b/
 └── scripts/
     ├── update.sh
     └── fetch_market_data.py
 ```
 
-**Note:** Martin's Day 1 data is in `data/trades/`, `data/market/`, `reports/2026-05-28/` — will be migrated to new structure.
+**Note:** Trader A's Day 1 data is in `data/trades/`, `data/market/`, `reports/2026-05-28/` — will be migrated to new structure.
 
 ---
 
@@ -174,7 +174,7 @@ Never overwrite existing entries — append only.
 
 ### Open Reports
 ```bash
-open -a Firefox ~/Documents/Trading/reports/martin/YYYY-MM-DD/report_standalone.html
+open -a Firefox ~/Documents/Trading/reports/trader a/YYYY-MM-DD/report_standalone.html
 ```
 **Note:** Use Firefox — Chrome blocks Base64 images in local files.
 
@@ -204,11 +204,11 @@ Includes cancelled orders → shows Spike Catchers and original intentions.
 
 ## Current Status
 - **Last update:** 2026-05-29
-- **Trading days documented:** 1 full (Martin 2026-05-28), 1 partial (Martin Japan session 2026-05-29)
+- **Trading days documented:** 1 full (Trader A 2026-05-28), 1 partial (Trader A Japan session 2026-05-29)
 - **Method version:** 0.1
 - **README version:** 1.4
 - **Documented behaviour patterns:** 3 (FOMO Top Scale, Context Switch Exit, Concentration Loss)
 - **Open hypotheses:** 5 (H1–H5)
 - **Documented situations:** 1 (Barbwire Reversal)
-- **Martin account balance:** $17,348.87 + Japan session (open)
-- **Katya:** not yet started
+- **Trader A account balance:** $17,348.87 + Japan session (open)
+- **Trader B:** not yet started
