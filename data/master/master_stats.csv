@@ -1,4 +1,4 @@
 date,session,trader,instrument,trades,wins,losses,be,win_rate,gross_pnl,commissions,net_pnl,start_balance,end_balance,biggest_win,biggest_loss,notes
 2026-05-28,day,martin,TRADENATION:USTEC,33,26,5,2,78.8%,7378.57,-29.70,7348.87,10000.00,17348.87,2911.00,-966.00,Starker USTEC Long Tag. Anchor Trade 11:13 +$2911. Behaviour cost -$1302
-2026-05-28,japan,martin,WHSELFINVEST:JAPAN225CFD,68,11,3,0,78.6%,3941.23,-61.20,3880.03,17348.87,21276.93,1240.27,-801.79,Vollständige Session 20:51-01:12 UTC. Barbwire Reversal at open. Stop Loss hit 23:38 -$394. Short Stop hit 00:20 -$802.
+2026-05-28,japan,martin,WHSELFINVEST:JAPAN225CFD,68,11,3,0,78.6%,3941.23,-61.20,3880.03,17348.87,21276.93,1240.27,-801.79,Vollständige Session 20:51-01:12 UTC. Barbwire Reversal at open. SL hit 23:38 -$394. Short SL hit 00:20 -$802.
 2026-05-29,japan,martin,TRADENATION:USTEC,113,14,2,0,87.5%,3871.15,101.7,3769.45,14182.61,19236.44,1341.0,-607.61,

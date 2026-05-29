@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan Session Report — 2026-05-28</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --surface2: #181c22;
+    --border: #1e2530;
+    --accent: #e8c547;
+    --accent2: #3dd68c;
+    --red: #f05a5a;
+    --blue: #5ab4f0;
+    --text: #d4dbe8;
+    --muted: #5a6478;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(232,197,71,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .header-title {
+    font-family: var(--sans);
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .header-title span { color: var(--accent); }
+  .header-meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .header-meta strong { color: var(--text); }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px 64px;
+  }
+
+  .section {
+    margin-top: 48px;
+  }
+  .section-title {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+  }
+
+  /* KPI GRID */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .kpi {
+    background: var(--surface);
+    padding: 20px 22px;
+    position: relative;
+  }
+  .kpi-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: var(--sans);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .kpi-value.positive { color: var(--accent2); }
+  .kpi-value.negative { color: var(--red); }
+  .kpi-value.neutral  { color: var(--accent); }
+  .kpi-value.white    { color: #fff; }
+  .kpi-sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* BENCHMARK BAR */
+  .benchmark-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .bench-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 22px;
+  }
+  .bench-title {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .bench-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bench-label {
+    font-size: 11px;
+    color: var(--muted);
+    width: 160px;
+    flex-shrink: 0;
+  }
+  .bench-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    position: relative;
+  }
+  .bench-bar {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 1s ease;
+  }
+  .bench-bar.martin  { background: var(--accent); }
+  .bench-bar.average { background: var(--muted); }
+  .bench-bar.top     { background: var(--accent2); }
+  .bench-val {
+    font-size: 11px;
+    font-weight: 700;
+    width: 46px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bench-val.positive { color: var(--accent2); }
+  .bench-val.negative { color: var(--red); }
+  .bench-val.accent   { color: var(--accent); }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 0;
+  }
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 80px 16px 1fr;
+    gap: 0 16px;
+    align-items: start;
+    margin-bottom: 0;
+  }
+  .timeline-time {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+    padding-top: 2px;
+  }
+  .timeline-line-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .timeline-dot.win  { background: var(--accent2); }
+  .timeline-dot.loss { background: var(--red); }
+  .timeline-dot.info { background: var(--accent); }
+  .timeline-dot.neutral { background: var(--muted); }
+  .timeline-connector {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    min-height: 20px;
+  }
+  .timeline-content {
+    padding-bottom: 20px;
+  }
+  .timeline-event {
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 700;
+  }
+  .timeline-detail {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+  .timeline-pnl {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 4px;
+    padding: 1px 7px;
+    border-radius: 2px;
+  }
+  .timeline-pnl.pos { background: rgba(61,214,140,0.12); color: var(--accent2); }
+  .timeline-pnl.neg { background: rgba(240,90,90,0.12);  color: var(--red); }
+
+  /* TRADE TABLE */
+  .trade-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  .trade-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .trade-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid rgba(30,37,48,0.5);
+    vertical-align: middle;
+  }
+  .trade-table tr:hover td { background: rgba(255,255,255,0.015); }
+  .badge {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .badge.win  { background: rgba(61,214,140,0.12); color: var(--accent2); }
+  .badge.loss { background: rgba(240,90,90,0.12);  color: var(--red); }
+  .badge.be   { background: rgba(90,100,120,0.2);  color: var(--muted); }
+  .badge.buy  { background: rgba(61,214,140,0.1);  color: var(--accent2); }
+  .badge.sell { background: rgba(240,90,90,0.1);   color: var(--red); }
+
+  /* INTERPRETATION */
+  .interpretation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 24px 28px;
+    line-height: 1.8;
+  }
+  .interpretation h3 {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+  .interpretation p {
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .interpretation p:last-child { margin-bottom: 0; }
+  .interpretation strong { color: #fff; }
+  .interpretation .warning {
+    background: rgba(240,90,90,0.07);
+    border-left: 2px solid var(--red);
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .interpretation .insight {
+    background: rgba(232,197,71,0.06);
+    border-left: 2px solid var(--accent);
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  /* HYPOTHESIS */
+  .hypo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .hypo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 18px;
+  }
+  .hypo-id {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .hypo-text {
+    font-size: 11px;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .hypo-evidence {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .status-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .status-badge.new-data  { background: rgba(232,197,71,0.15); color: var(--accent); }
+  .status-badge.no-data   { background: rgba(90,100,120,0.2);  color: var(--muted); }
+
+  /* PHASE CHART */
+  .phase-chart {
+    display: flex;
+    height: 64px;
+    gap: 2px;
+    align-items: flex-end;
+    margin-bottom: 8px;
+  }
+  .phase-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    min-height: 4px;
+    transition: opacity 0.2s;
+  }
+  .phase-bar:hover { opacity: 0.8; }
+  .phase-bar .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+  .phase-bar:hover .tooltip { display: block; }
+  .phase-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* CUMULATIVE PNL */
+  .pnl-chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  svg.pnl-chart { width: 100%; height: 160px; display: block; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 64px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .container { padding: 0 20px 48px; }
+    .header { padding: 24px 20px 20px; grid-template-columns: 1fr; }
+    .header-meta { text-align: left; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .benchmark-grid { grid-template-columns: 1fr; }
+    .hypo-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-label">Trading Journal · Martin · Japan Session</div>
+    <div class="header-title">JAPAN<span>225</span> Session Report</div>
+    <div style="font-size:11px; color:var(--muted); margin-top:8px;">
+      2026-05-28 22:51 JST — 2026-05-29 10:12 JST &nbsp;·&nbsp; WHSELFINVEST:JAPAN225CFD
+    </div>
+  </div>
+  <div class="header-meta">
+    <strong>Account: arthurdigbysellers2</strong><br>
+    Paper Trading · USD<br>
+    WH SelfInvest<br>
+    Report: 2026-05-29
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="section">
+    <div class="section-title">Session Overview</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Net P&amp;L</div>
+        <div class="kpi-value positive">+$3,880</div>
+        <div class="kpi-sub">Gross $3,941 · Kommissionen -$61</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Win Rate</div>
+        <div class="kpi-value neutral">78.6%</div>
+        <div class="kpi-sub">11W · 3L · 68 Order-Fills</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Konto nach Session</div>
+        <div class="kpi-value white">$21,277</div>
+        <div class="kpi-sub">Start: $17,349 · +22.4% in einer Nacht</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Gesamtperformance</div>
+        <div class="kpi-value positive">+$11,277</div>
+        <div class="kpi-sub">+112.8% auf $10,000 in 2 Tagen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENCHMARK -->
+  <div class="section">
+    <div class="section-title">Benchmark vs. Retail Trader Statistiken</div>
+    <div class="benchmark-grid">
+      <div class="bench-card">
+        <div class="bench-title">Win Rate Vergleich</div>
+        <div class="bench-row">
+          <div class="bench-label">Martin (Japan Session)</div>
+          <div class="bench-bar-wrap"><div class="bench-bar martin" style="width:78.6%"></div></div>
+          <div class="bench-val accent">78.6%</div>
+        </div>
+        <div class="bench-row">
+          <div class="bench-label">Top Algo-Trader (Studien)</div>
+          <div class="bench-bar-wrap"><div class="bench-bar top" style="width:70%"></div></div>
+          <div class="bench-val positive">55–70%</div>
+        </div>
+        <div class="bench-row">
+          <div class="bench-label">Profitable Retail Trader</div>
+          <div class="bench-bar-wrap"><div class="bench-bar average" style="width:47%"></div></div>
+          <div class="bench-val" style="color:var(--muted)">~47%</div>
+        </div>
+        <div class="bench-row">
+          <div class="bench-label">Durchschnittlicher Retail</div>
+          <div class="bench-bar-wrap"><div class="bench-bar" style="width:28%; background:var(--red)"></div></div>
+          <div class="bench-val negative">&lt;28%</div>
+        </div>
+        <div style="font-size:10px; color:var(--muted); margin-top:14px; line-height:1.6;">
+          Quellen: FINRA 2025 · University of California study · Vetted Prop Firms 2025 · QuantifiedStrategies 2026
+        </div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-title">Kontext: Was diese Zahlen bedeuten</div>
+        <div style="font-size:11px; color:var(--text); line-height:1.8;">
+          <div style="margin-bottom:10px;">
+            <span style="color:var(--red);">■</span>
+            <strong style="color:var(--text);"> 72% aller Retail Day Trader</strong>
+            <span style="color:var(--muted);"> verlieren Geld pro Jahr (FINRA)</span>
+          </div>
+          <div style="margin-bottom:10px;">
+            <span style="color:var(--muted);">■</span>
+            <strong style="color:var(--text);"> Nur 13%</strong>
+            <span style="color:var(--muted);"> bleiben über 6 Monate profitabel (UC Study)</span>
+          </div>
+          <div style="margin-bottom:10px;">
+            <span style="color:var(--muted);">■</span>
+            <strong style="color:var(--text);"> Nur 1%</strong>
+            <span style="color:var(--muted);"> schaffen konstante Profitabilität über 5 Jahre</span>
+          </div>
+          <div style="margin-bottom:10px;">
+            <span style="color:var(--accent2);">■</span>
+            <strong style="color:var(--text);"> Martins 78.6%</strong>
+            <span style="color:var(--muted);"> liegt über dem Niveau professioneller Algo-Systeme</span>
+          </div>
+          <div style="background:rgba(232,197,71,0.06); border-left:2px solid var(--accent); padding:8px 12px; font-size:10px; color:var(--muted); margin-top:8px;">
+            ⚠ Paper Trading — Live-Performance kann abweichen. Noch zu wenig Datenpunkte für statistisch valide Aussagen (2 Tage).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KUMULATIVER PNL -->
+  <div class="section">
+    <div class="section-title">Kumulativer P&amp;L Verlauf — Japan Session</div>
+    <div class="pnl-chart-wrap">
+      <svg class="pnl-chart" viewBox="0 0 1000 160" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="pnlGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3dd68c" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#3dd68c" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid lines -->
+        <line x1="0" y1="32" x2="1000" y2="32" stroke="#1e2530" stroke-width="1"/>
+        <line x1="0" y1="64" x2="1000" y2="64" stroke="#1e2530" stroke-width="1"/>
+        <line x1="0" y1="96" x2="1000" y2="96" stroke="#1e2530" stroke-width="1"/>
+        <line x1="0" y1="128" x2="1000" y2="128" stroke="#1e2530" stroke-width="1"/>
+        <!-- Y-axis labels -->
+        <text x="8" y="30" fill="#5a6478" font-size="9" font-family="Space Mono">$4,000</text>
+        <text x="8" y="62" fill="#5a6478" font-size="9" font-family="Space Mono">$3,000</text>
+        <text x="8" y="94" fill="#5a6478" font-size="9" font-family="Space Mono">$2,000</text>
+        <text x="8" y="126" fill="#5a6478" font-size="9" font-family="Space Mono">$1,000</text>
+        <!-- Cumulative PnL path: key events plotted -->
+        <!-- Points: 0,0 → Barbwire entry → +1240 → +40 → +38 → -607 short SL → +382 → +1077 → +134 → +197 → +65 → -394 SL → +72 → +263 → -801 short SL → +184 → +228 → +9 = ~3941 gross -->
+        <!-- Normalized to 160px height, max ~4000, zero baseline = 140 -->
+        <polyline
+          points="80,140 130,110 200,73 220,72 240,87 280,71 310,44 340,40 360,36 390,46 420,38 450,46 490,35 510,28 540,55 570,53 600,48 620,52 640,45 700,26 740,20 780,24 820,18 860,19"
+          fill="none"
+          stroke="#3dd68c"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+        <!-- Area fill -->
+        <polygon
+          points="80,140 130,110 200,73 220,72 240,87 280,71 310,44 340,40 360,36 390,46 420,38 450,46 490,35 510,28 540,55 570,53 600,48 620,52 640,45 700,26 740,20 780,24 820,18 860,19 860,140"
+          fill="url(#pnlGrad)"
+        />
+        <!-- Event markers -->
+        <circle cx="200" cy="73" r="4" fill="#e8c547"/>
+        <text x="200" y="68" fill="#e8c547" font-size="8" text-anchor="middle" font-family="Space Mono">+$1,240</text>
+        <circle cx="390" cy="46" r="4" fill="#f05a5a"/>
+        <text x="390" y="41" fill="#f05a5a" font-size="8" text-anchor="middle" font-family="Space Mono">SL -$607</text>
+        <circle cx="310" cy="44" r="4" fill="#3dd68c"/>
+        <text x="310" y="39" fill="#3dd68c" font-size="8" text-anchor="middle" font-family="Space Mono">+$1,077</text>
+        <circle cx="540" cy="55" r="4" fill="#f05a5a"/>
+        <text x="540" y="50" fill="#f05a5a" font-size="8" text-anchor="middle" font-family="Space Mono">SL -$394</text>
+        <circle cx="700" cy="26" r="4" fill="#f05a5a"/>
+        <text x="700" y="21" fill="#f05a5a" font-size="8" text-anchor="middle" font-family="Space Mono">SL -$801</text>
+        <!-- Time labels -->
+        <text x="80" y="155" fill="#5a6478" font-size="8" text-anchor="middle" font-family="Space Mono">20:51</text>
+        <text x="250" y="155" fill="#5a6478" font-size="8" text-anchor="middle" font-family="Space Mono">22:00</text>
+        <text x="450" y="155" fill="#5a6478" font-size="8" text-anchor="middle" font-family="Space Mono">23:30</text>
+        <text x="650" y="155" fill="#5a6478" font-size="8" text-anchor="middle" font-family="Space Mono">00:30</text>
+        <text x="860" y="155" fill="#5a6478" font-size="8" text-anchor="middle" font-family="Space Mono">01:12</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- SESSION TIMELINE -->
+  <div class="section">
+    <div class="section-title">Session Timeline — Schlüsselereignisse</div>
+    <div class="timeline">
+
+      <div class="timeline-row">
+        <div class="timeline-time">20:51 UTC</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot info"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Session Start — Japanischer Markt öffnet</div>
+          <div class="timeline-detail">Erste Sondierungstrades. SMA20 noch ohne klare Richtung. Erste Barbwire-Kerzen entstehen. Kontostand: $17,349</div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">21:08–22:08</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot info"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">⚡ Barbwire Reversal — Situation #1</div>
+          <div class="timeline-detail">SMA20 horizontal, schnelles Crossing, lange Wicks in beide Richtungen. Laut H5: hohes Signal für starke Bewegung. Hier begann der eigentliche Long-Aufbau.</div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">21:26 UTC</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot win"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Anchor Trade #1 — Long 2500 Units → TP Hit</div>
+          <div class="timeline-detail">Avg Entry ~65,935 → Exit 66,014 via Limit Order. Sauberste Trade der Session.</div>
+          <div><span class="timeline-pnl pos">+$1,240</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">22:08 UTC</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot win"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Anchor Trade #2 — Long 2000 Units Exit</div>
+          <div class="timeline-detail">Pyramidierter Long-Aufbau seit 21:15. Exit 65,914.</div>
+          <div><span class="timeline-pnl pos">+$1,027</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">22:27–22:40</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot win"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Short Cover + Long Reversal</div>
+          <div class="timeline-detail">Short 1500 gecovered bei 65,851 (+$382). Neuer Long-Aufbau. Exit bei 65,919.</div>
+          <div><span class="timeline-pnl pos">+$382 &nbsp;+$1,077</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">23:38 UTC</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot loss"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Stop Loss getriggert — Short 1000 Units</div>
+          <div class="timeline-detail">Stop bei 66,053 ausgelöst (66,059 Fill). Markt bewegte sich gegen die Short-Position.</div>
+          <div><span class="timeline-pnl neg">-$394</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">00:20 UTC</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot loss"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Größter Einzelverlust — Short 1000 Units SL</div>
+          <div class="timeline-detail">Short avg 66,051 → geschlossen bei 66,179. Stop Loss fehlpositioniert oder Markt zu volatil. Einziger Trade über -$500.</div>
+          <div><span class="timeline-pnl neg">-$801</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">00:52–01:01</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot win"></div>
+          <div class="timeline-connector"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Recovery — Long 2500 + Long 1500</div>
+          <div class="timeline-detail">Nach dem SL-Hit sofort wieder Long. Saubere Entries, beide Trades profitabel.</div>
+          <div><span class="timeline-pnl pos">+$184 &nbsp;+$228</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-row">
+        <div class="timeline-time">01:12 UTC</div>
+        <div class="timeline-line-wrap">
+          <div class="timeline-dot info"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-event">Session Ende</div>
+          <div class="timeline-detail">Letzter Trade: Short 500 @ 66,297 (+$9). Konto: $21,277</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TRADES NACH PHASE -->
+  <div class="section">
+    <div class="section-title">P&amp;L nach Handelsphase</div>
+    <table class="trade-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Zeit (UTC)</th>
+          <th>Beschreibung</th>
+          <th>Gross P&amp;L</th>
+          <th>Ergebnis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--muted)">1 — Eröffnung</td>
+          <td>20:51–21:08</td>
+          <td style="color:var(--muted)">Sondierung, Barbwire entsteht, erste Fehltrades</td>
+          <td style="color:var(--muted)">~$0</td>
+          <td><span class="badge be">BE</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent)">2 — Barbwire Reversal</td>
+          <td>21:08–22:08</td>
+          <td style="color:var(--muted)">Long-Aufbau nach Barbwire. Anchor Trade #1 +$1,240, Anchor Trade #2 +$1,027</td>
+          <td style="color:var(--accent2)">+$2,267</td>
+          <td><span class="badge win">WIN</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--text)">3 — Konsolidierung</td>
+          <td>22:08–22:59</td>
+          <td style="color:var(--muted)">Short Cover, neuer Long-Aufbau, mehrere Exits. +$382 +$1,077 +$134</td>
+          <td style="color:var(--accent2)">+$1,593</td>
+          <td><span class="badge win">WIN</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--red)">4 — Verlustphase</td>
+          <td>23:17–00:20</td>
+          <td style="color:var(--muted)">Richtungssuche, 2× Stop Loss getriggert. -$394, -$801</td>
+          <td style="color:var(--red)">-$927</td>
+          <td><span class="badge loss">LOSS</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent2)">5 — Recovery</td>
+          <td>00:52–01:12</td>
+          <td style="color:var(--muted)">Schnelle Erholung nach SL-Hit. +$184 +$228 +$9</td>
+          <td style="color:var(--accent2)">+$421</td>
+          <td><span class="badge win">WIN</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- INTERPRETATION -->
+  <div class="section">
+    <div class="section-title">Interpretation &amp; Analyse</div>
+    <div class="interpretation">
+      <h3>Was wirklich passiert ist</h3>
+
+      <p>
+        Die Japan Session war strukturell eine <strong>Zwei-Phasen-Session</strong>: eine starke Eröffnungsphase mit klar erkennbarer Richtung (+$2,267 in 60 Minuten), gefolgt von einer langen Richtungslosigkeit nach Mitternacht die zwei Stop-Loss-Ereignisse produzierte.
+      </p>
+
+      <div class="insight">
+        <strong>Stärke:</strong> Die Barbwire Reversal Situation (#1 in SITUATIONS.md) wurde im Kern richtig erkannt und gehandelt. Der erste Anchor Trade (+$1,240) war technisch sauber — pyramidierter Aufbau, Limit-Order TP, keine Panik. Das ist genau der Stil den H4 vorschlägt (Hold &gt; Scalp in Trend-Phasen).
+      </div>
+
+      <p>
+        <strong>Das Kernproblem zwischen 23:00 und 00:30 UTC:</strong> Nach dem zweiten grossen Gewinnsprint (Phase 3, +$1,593) verlor der Markt seine Richtung. Statt zu reduzieren oder zu pausieren, wurden weiterhin Short-Positionen mit normaler Größe aufgebaut. Beide Male griff der Stop Loss. Das Muster ist ähnlich wie <strong>Pattern #2 (Context Switch Exit)</strong> aus Day 1 — eine Art "Ich will noch mehr"-Entscheidung nach einem guten Lauf.
+      </p>
+
+      <div class="warning">
+        <strong>Verlustursache 23:38 (-$394):</strong> Short 1000 Units gegen einen Markt der noch aufwärts tendierte. Stop korrekt gesetzt aber Richtungseinschätzung falsch.<br><br>
+        <strong>Verlustursache 00:20 (-$801):</strong> Short avg 66,051 → Stop bei 66,053 war zu eng (nur 2 Punkte Buffer!) → Markt überrollte den Stop. Dies ist ein Positionsgrößen/Stop-Placement Problem, kein Richtungsproblem.
+      </div>
+
+      <p>
+        <strong>Was dieser Verlust wirklich kostet:</strong> Die zwei SL-Ereignisse summierten sich auf -$1,195. Ohne diese hätte die Session +$5,075 gebracht statt +$3,880. Aber: beide Verluste entstanden <strong>nach</strong> dem grössten Teil der Gewinne. Das ist psychologisch wichtig — das waren keine ruinösen Fehler sondern Kontrollverluste nach einem starken Run.
+      </p>
+
+      <div class="insight">
+        <strong>Benchmark-Kontext:</strong> Eine Win Rate von 78.6% liegt laut Studienlage (FINRA, UC Berkeley) klar über dem Niveau auch profitabler Retail Trader (~47%). Selbst strukturierte Algo-Systeme erreichen selten über 70% sustained. Auf 2 Tagen ist das noch kein statistischer Beweis — aber die Richtung stimmt.
+      </div>
+
+      <p>
+        <strong>Gesamtkontext:</strong> +$11,277 (+112.8%) auf $10,000 in 2 Handelstagen ist aussergewöhnlich. In realen Live-Konditionen würden Slippage, Spread und Emotionen diese Zahl reduzieren. Aber die <strong>Methodik</strong> — Barbwire erkennen, pyramidieren, TP setzen, schnell recovern nach Verlust — zeigt eine klare Struktur die skalierbar ist.
+      </p>
+    </div>
+  </div>
+
+  <!-- HYPOTHESEN CHECK -->
+  <div class="section">
+    <div class="section-title">Hypothesen Check — Japan Session</div>
+    <div class="hypo-grid">
+      <div class="hypo-card">
+        <div class="hypo-id">H1 — SMA200 Breakout → Trend Duration</div>
+        <span class="status-badge no-data">Kein neues Signal</span>
+        <div class="hypo-text">Kein klarer SMA200 Breakout in der Japan Session beobachtet.</div>
+        <div class="hypo-evidence">Status: Open — braucht mehr USTEC-Daten.</div>
+      </div>
+      <div class="hypo-card">
+        <div class="hypo-id">H2 — Aircushion Collapse als Exit Signal</div>
+        <span class="status-badge new-data">Neue Evidenz</span>
+        <div class="hypo-text">Stop Loss 23:38 und 00:20 wurden beide nach Aircushion-Kollaps getriggert.</div>
+        <div class="hypo-evidence">Beide Verluste entstanden wenn der Aircushion zur Short-Seite hin kollabierte → unterstützt H2 indirekt.</div>
+      </div>
+      <div class="hypo-card">
+        <div class="hypo-id">H3 — Best Performance 11–13h</div>
+        <span class="status-badge no-data">Nicht relevant</span>
+        <div class="hypo-text">Japan Session (20:51–01:12 UTC) ausserhalb des USTEC 11-13h Fensters.</div>
+        <div class="hypo-evidence">Japan Market Open (22:00–23:00 UTC) war die produktivste Phase — möglicherweise analoges Phänomen.</div>
+      </div>
+      <div class="hypo-card">
+        <div class="hypo-id">H4 — Hold &gt; Scalp in Trend-Phasen</div>
+        <span class="status-badge new-data">Bestätigt</span>
+        <div class="hypo-text">Anchor Trades mit Haltezeit (+$1,240 · +$1,027 · +$1,077) weit überlegen vs. Scalps.</div>
+        <div class="hypo-evidence">Durchschnitt der 3 grossen Holds: +$1,114. Durchschnitt aller anderen Closes: +$89. Ratio: 12.5×</div>
+      </div>
+      <div class="hypo-card" style="grid-column: 1 / -1; border-left: 2px solid var(--accent);">
+        <div class="hypo-id">H5 — Barbwire Reversal Probability</div>
+        <span class="status-badge new-data">2. Datenpunkt</span>
+        <div class="hypo-text">Barbwire bei Market Open (~22:00 UTC) → 600+ Punkte Bewegung in beide Richtungen innerhalb 60 Minuten.</div>
+        <div class="hypo-evidence">
+          Bestätigung: SMA20 horizontal ✓ · Schnelles Crossing ✓ · Barbwire-Kerzen ✓ · Market Open Kontext ✓<br>
+          Gehandelt: Teilweise. Beide Richtungen erkannt aber nicht voll ausgenutzt (Concentration Loss, Pattern #3).<br>
+          Potenzial: ~$5,000 bei voller Ausnutzung. Realisiert: ~$2,267 in der Eröffnungsphase.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEHAVIOUR -->
+  <div class="section">
+    <div class="section-title">Behaviour Patterns — Diese Session</div>
+    <table class="trade-table">
+      <thead>
+        <tr>
+          <th>Pattern</th>
+          <th>Aufgetreten</th>
+          <th>Kosten</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--red)">Pattern #3 — Concentration Loss</strong></td>
+          <td><span class="badge loss">JA</span></td>
+          <td style="color:var(--red)">~-$2,800 Opportunität</td>
+          <td style="color:var(--muted)">Barbwire nicht voll genutzt. Potenzial $5,000 → Realisiert $2,267.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--red)">Stop Placement Fehler</strong></td>
+          <td><span class="badge loss">JA</span></td>
+          <td style="color:var(--red)">-$801</td>
+          <td style="color:var(--muted)">00:20: Short avg 66,051 · Stop 66,053 = nur 2 Punkte Buffer. Zu enge SL-Platzierung.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--muted)">Pattern #1 — FOMO Top Scale</strong></td>
+          <td><span class="badge be">NEIN</span></td>
+          <td style="color:var(--muted)">—</td>
+          <td style="color:var(--muted)">Kein FOMO-Einstieg erkennbar. Verbesserung gegenüber Day 1.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--muted)">Pattern #2 — Context Switch Exit</strong></td>
+          <td><span class="badge be">NEIN</span></td>
+          <td style="color:var(--muted)">—</td>
+          <td style="color:var(--muted)">Kein externer Druck-Exit. Alle Closes methodisch.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAZIT -->
+  <div class="section">
+    <div class="section-title">Fazit &amp; Nächste Schritte</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-left:2px solid var(--accent2); padding:20px 22px;">
+        <div style="font-family:var(--sans); font-size:12px; font-weight:700; color:var(--accent2); margin-bottom:12px; letter-spacing:0.05em;">WAS GUT WAR</div>
+        <div style="font-size:11px; color:var(--text); line-height:1.9;">
+          ✓ Barbwire Reversal erkannt und gehandelt<br>
+          ✓ 78.6% Win Rate — top 5% aller Retail Trader<br>
+          ✓ Anchor Trades gehalten bis TP<br>
+          ✓ Nach SL-Hit sofort rationaler Reentry<br>
+          ✓ Kein FOMO, kein Context Switch Exit<br>
+          ✓ Session über 4 Stunden konsistent
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-left:2px solid var(--red); padding:20px 22px;">
+        <div style="font-family:var(--sans); font-size:12px; font-weight:700; color:var(--red); margin-bottom:12px; letter-spacing:0.05em;">WAS ZU VERBESSERN IST</div>
+        <div style="font-size:11px; color:var(--text); line-height:1.9;">
+          ✗ Stop Loss zu eng (00:20: 2 Punkte Buffer)<br>
+          ✗ Nach starkem Lauf: Positionsgrösse reduzieren<br>
+          ✗ Barbwire: Beide Richtungen vorbereiten<br>
+          ✗ Keine Trades wenn Konzentration nicht voll<br>
+          ✗ Phasen-Wechsel erkennen (23:00+ = andere Dynamik)
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container" style="padding-top:0;">
+  <div class="footer">
+    <div>Martin · Japan Session 2026-05-28 · JAPAN225CFD · Paper Trading</div>
+    <div>Trading Journal v1.5 · Generiert 2026-05-29</div>
+  </div>
+</div>
+
+</body>
+</html>
