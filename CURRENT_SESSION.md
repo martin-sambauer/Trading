@@ -4,19 +4,24 @@
 ## For New AI: How to start
 1. Read this file completely
 2. Read README.md
-3. Check `data/traders/trader a/exports/` for latest raw CSVs
-4. Say to Trader A in German: "Ich bin auf dem aktuellen Stand. [Was noch fehlt]."
-5. Never ask Trader A to re-explain what's already in this file
+3. Check `data/master/master_trades.csv` — alle Trades direkt lesbar
+4. Check `data/master/master_stats.csv` — Session-Übersicht
+5. Check `data/traders/martin/exports/` für neue rohe CSVs
+6. Say to Martin in German: "Ich bin auf dem aktuellen Stand. [Was noch fehlt]."
+7. Never ask Martin to re-explain what's already in this file
 
-## Repo
-Private: https://github.com/trader-journal/Trading
-Token: Trader A stores it locally. Ask him to run:
+## Filesystem MCP
+Claude hat direkten Zugriff auf `/Users/martinsambauer/Documents/Trading/` — kein Upload nötig.
+Dateien direkt lesen und schreiben. Nach Änderungen: Martin pusht mit:
 ```bash
-git remote set-url origin https://trader-journal:TOKEN@github.com/trader-journal/Trading.git
+cd ~/Documents/Trading && ./scripts/update.sh "2026-05-29 session close"
 ```
 
-## Who is Trader A
-- Daytrader, paper trading on TradingView (account: trader_account USD)
+## Repo
+Private: https://github.com/martin-sambauer/Trading
+
+## Who is Martin
+- Daytrader, paper trading on TradingView (account: arthurdigbysellers2 USD)
 - Building his own trading method — see method/METHOD.md
 - Language: German
 - Brokers: TradeNation (USTEC), Forex.com (US30/GER40), WH SelfInvest (JAPAN225)
@@ -24,51 +29,52 @@ git remote set-url origin https://trader-journal:TOKEN@github.com/trader-journal
 ## Account Status
 - Start: $10,000 (2026-05-28)
 - After Day 1 (2026-05-28): $17,348.87 (+73.5%)
-- Japan session (2026-05-29): +$1,763 realized (final P&L pending)
-- Estimated total: ~$19,100+
+- After Japan session (2026-05-28 night): ~$19,091 (+$1,742 net)
+- Open position: Short 1500 JAPAN225 @ 65891 (unresolved, -$961 unrealized at close of data)
 
-## Raw Data Location
-All CSVs Trader A uploads are saved to `data/traders/trader a/exports/` and pushed automatically.
-Check there first before asking Trader A to re-upload anything.
+## Data Structure
+- `data/master/master_trades.csv` — ALLE Trades, append-only, direkt lesbar
+- `data/master/master_stats.csv` — eine Zeile pro Session
+- `data/traders/martin/exports/YYYY-MM-DD/` — rohe TradingView CSVs
+- `data/market/YYYY-MM-DD_SYMBOL.csv` — 5M Kerzen (via fetch_market_data.py)
+
+## Scripts
+```bash
+# Alles auf einmal (Marktdaten + Trades parsen + Screenshots + Git Push):
+./scripts/update.sh [YYYY-MM-DD] [trader] [kommentar]
+
+# Nur Marktdaten:
+python3 scripts/fetch_market_data.py [YYYY-MM-DD]
+
+# Nur Trades parsen:
+python3 scripts/parse_trades.py [YYYY-MM-DD] [trader]
+```
 
 ## Day 1 — 2026-05-28 (COMPLETE)
-- 33 trades, +$7,349, Win Rate 78.8%
+- 33 trades, +$7,349 net, Win Rate 78.8%
 - Anchor Trade: USTEC Long 11:13 +$2,911
 - Behaviour cost: -$1,302 (FOMO Top Scale + Context Switch Exit)
 - Report: reports/2026-05-28/report_standalone.html ✅
 
-## Japan Session — 2026-05-29 (INCOMPLETE)
-**Status:** CSVs uploaded in previous chat, report NOT yet created
-
-**What happened:**
-- Instrument: WHSELFINVEST:JAPAN225CFD
-- Realized P&L: +$1,763
+## Japan Session — 2026-05-28 night (COMPLETE in master_trades.csv)
+- 23 order-fills, +$1,742 net
 - Key event: Barbwire Reversal at market open (~08:30 JST)
-- SMA20 horizontal → fast crossing → Barbwire candles → 600+ point move
-- Missed ~$3,000 due to Concentration Loss (Pattern #3, distracted by Claude chat)
-
-**Raw CSVs in repo** (`data/traders/trader a/exports/2026-05-29/`):
-- paper-trading-balance-history-2026-05-29.csv
-- paper-trading-order-history-2026-05-29.csv
-- paper-trading-trading-journal-2026-05-29.csv
-- paper-trading-positions-2026-05-29.csv
-
-**Screenshots in Google Drive** (also in `screenshots/`):
-- JAPAN225CFD_2026-05-28_19-09-00_cbdae.png
-- JAPAN225CFD_2026-05-28_21-12-25_1b04d.png
-- JAPAN225CFD_2026-05-28_21-15-00_6982c.png
+- Missed ~$3,000 due to Concentration Loss (Pattern #3)
+- Report: FEHLT NOCH → reports/martin/2026-05-28_japan/
 
 ## Open Items
-- [ ] Japan session report erstellen (reports/trader a/2026-05-29/)
-- [ ] master_stats.csv mit Japan-Daten updaten
-- [ ] Trader B GitHub account (waiting)
-- [ ] Data migration: data/trades/ → data/traders/trader a/trades/
+- [ ] Japan session report erstellen (reports/martin/2026-05-28_japan/)
+- [ ] Open position JAPAN225 Short 1500 — finales P&L unbekannt
+- [ ] yfinance installieren: `pip3 install yfinance`
+- [ ] update.sh ausführbar machen: `chmod +x scripts/update.sh`
+- [ ] Katya GitHub account (waiting)
+- [ ] Data migration: data/trades/ → data/traders/martin/trades/
 
-## Key Method Insights (latest)
+## Key Method Insights
 - Barbwire Reversal documented in SITUATIONS.md
-- H5 added: Barbwire → high probability strong move
-- All terminology now in English
-- Hypothesis check mandatory on every data analysis
+- H5: Barbwire → high probability strong move
+- All terminology in English
+- Hypothesis check mandatory on every data analysis (H1–H5)
 
 ## File Delivery Rule
 Always: ZIP with only changed files + one terminal command:
