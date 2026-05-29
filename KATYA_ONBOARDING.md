@@ -1,127 +1,256 @@
-<!-- Version: 1.0 | Letzte Änderung: 2026-05-28 -->
+<!-- Version: 1.1 | Letzte Änderung: 2026-05-28 -->
 # Katya Onboarding — Trading Journal
 
-Hallo Katya! Diese Anleitung erklärt wie du dich in das Trading-Journal-System einbindest das Martin und ich aufgebaut haben. Danach können wir eure Performances direkt vergleichen.
+---
+
+## Für Katyas KI: Lies das zuerst
+
+Du arbeitest mit Katya Sambauer. Deine Aufgabe ist es, sie durch dieses Onboarding zu führen und danach täglich ihre Trading-Daten auszuwerten. Hier ist alles was du wissen musst:
+
+**Das System:** Martin und Katya handeln parallel. Ihre Daten landen im selben GitHub Repo. Du analysierst Katyas Trades, erstellst Reports und vergleichst ihre Performance mit Martin.
+
+**Das Repo:** `https://github.com/martin-sambauer/Trading`
+
+**Pflichtlektüre vor jeder Session:**
+1. `README.md` — das Gesamtsystem
+2. `method/METHOD.md` — die Handelsmethode
+3. `method/TERMINOLOGY.md` — alle Begriffe (Aircushion, Battle Zone, etc.)
+4. `method/HYPOTHESES.md` — aktuelle Hypothesen
+5. `data/traders/katya/master_stats.csv` — Katyas aggregierte Stats (sobald vorhanden)
+
+**Katyas Daten liegen in:**
+- `data/traders/katya/trades/YYYY-MM-DD.csv` — tägliche Trades
+- `data/traders/katya/market/YYYY-MM-DD_SYMBOL.csv` — Marktdaten
+- `reports/katya/YYYY-MM-DD/` — Reports
+- `screenshots/katya/` — Chart-Screenshots
+
+**Nach jeder Session:**
+1. Trades aus Balance History CSV parsen
+2. `data/traders/katya/trades/YYYY-MM-DD.csv` erstellen
+3. `data/traders/katya/master_stats.csv` updaten
+4. Report erstellen: `reports/katya/YYYY-MM-DD/report.html`
+5. Standalone Report: `reports/katya/YYYY-MM-DD/report_standalone.html`
+6. Falls Martin am gleichen Tag gehandelt hat → Vergleichsreport: `reports/comparison/YYYY-MM-DD/report.html`
+7. Hypothesen und Terminologie updaten falls neue Erkenntnisse
+8. CHANGELOG updaten
+
+**Führe Katya jetzt durch das Onboarding** — fang mit Schritt 1 an und warte auf ihre Bestätigung bevor du weitermachst.
 
 ---
 
-## Für deine KI: Lies das zuerst
-Du arbeitest mit Katya Sambauer an ihrem Trading-Journal. Das Haupt-System ist in `README.md` dokumentiert. Katyas Daten liegen in `data/traders/katya/`, ihre Reports in `reports/katya/`. Erstelle nach jeder Session einen Report im gleichen Format wie Martins Reports. Falls Martin am gleichen Tag gehandelt hat, erstelle zusätzlich einen Vergleichsreport in `reports/comparison/`.
+## Hallo Katya! 👋
+
+Ich bin deine KI und ich führe dich jetzt durch das Setup. Das dauert etwa 20 Minuten und danach läuft alles automatisch.
+
+Wir bauen das gleiche System wie Martin — du lieferst täglich deine Trading-Daten, ich analysiere sie und wir vergleichen eure Performances. Sag einfach "weiter" wenn du einen Schritt abgeschlossen hast.
 
 ---
 
-## Schritt 1 — GitHub Zugang (einmalig, 2 Minuten)
+## Schritt 1 — GitHub Account erstellen
 
-Martin gibt dir Zugang zum Repo:
-- Du bekommst eine Email-Einladung von GitHub
-- Klick auf den Link und akzeptiere die Einladung
-- Das war's — du hast Schreibzugriff auf das Repo
+GitHub ist wo alle Daten gespeichert werden. Du brauchst einen kostenlosen Account.
+
+**Was du tust:**
+1. Geh auf **github.com**
+2. Klick auf "Sign up"
+3. Email, Username und Passwort eingeben
+4. Account bestätigen
+
+**Dann:** Schick Martin deinen GitHub Username. Er lädt dich als Collaborator ein — du bekommst eine Email von GitHub, klick auf "Accept invitation".
+
+Sag mir deinen GitHub Username wenn du fertig bist, dann machen wir weiter.
 
 ---
 
-## Schritt 2 — Technisches Setup (einmalig, 15 Minuten)
+## Schritt 2 — Git und Tools installieren
 
-### Git installieren
+Öffne das Terminal (Spotlight → "Terminal") und führe diese Befehle aus:
+
 ```bash
+# Git installieren
 xcode-select --install
 ```
+Ein Fenster öffnet sich → "Installieren" klicken → warten bis fertig.
 
-### Repo klonen
+```bash
+# Homebrew installieren (falls noch nicht vorhanden)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# imagemagick für Screenshot-Komprimierung
+brew install imagemagick
+
+# Python-Abhängigkeiten
+pip3 install --break-system-packages git+https://github.com/rongardF/tvdatafeed.git pandas
+```
+
+Sag "weiter" wenn alles installiert ist.
+
+---
+
+## Schritt 3 — Repo klonen
+
 ```bash
 cd ~/Documents
 git clone https://github.com/martin-sambauer/Trading.git
 cd Trading
 ```
 
-### Python-Abhängigkeiten
+Das lädt das komplette Trading-Journal auf deinen Rechner.
+
+---
+
+## Schritt 4 — GitHub Token erstellen
+
+GitHub braucht einen Token statt Passwort zum Hochladen.
+
+**Was du tust:**
+1. Geh auf **github.com** → oben rechts dein Profilbild → "Settings"
+2. Ganz unten links: "Developer settings"
+3. "Personal access tokens" → "Tokens (classic)"
+4. "Generate new token (classic)"
+5. Note: "Trading"
+6. Expiration: "No expiration"
+7. Haken bei **repo** setzen
+8. "Generate token" klicken
+9. Den Token kopieren (du siehst ihn nur einmal!)
+
+**Dann im Terminal:**
 ```bash
-pip3 install --break-system-packages git+https://github.com/rongardF/tvdatafeed.git pandas
+git remote set-url origin https://DEIN_GITHUB_USERNAME:DEIN_TOKEN@github.com/martin-sambauer/Trading.git
 ```
 
-### imagemagick installieren
+Ersetze `DEIN_GITHUB_USERNAME` und `DEIN_TOKEN` mit deinen Werten.
+
+---
+
+## Schritt 5 — Google Drive einrichten
+
+Du brauchst die Google Drive Desktop App für deine Screenshots.
+
+**Was du tust:**
+1. Geh auf **drive.google.com/drive/download**
+2. App herunterladen und installieren
+3. Mit deinem Google Account einloggen
+4. Im Finder: Google Drive → neuen Ordner anlegen: `Trading_Journal_Katya`
+5. Darin einen Unterordner: `Screenshots`
+
+---
+
+## Schritt 6 — TradingView einrichten
+
+### Account
+Falls du noch keinen TradingView Account hast: **tradingview.com** → "Sign up" (kostenlos)
+
+### Paper Trading aktivieren
+1. Einen Chart öffnen (z.B. USTEC suchen)
+2. Unten im Browser: "Trading Panel" klicken
+3. "Paper Trading" auswählen → "Connect"
+4. Startkapital ist automatisch $100,000 (du kannst es in den Einstellungen ändern)
+
+### Execution Marks aktivieren (WICHTIG!)
+Damit deine Ein- und Ausstiegspunkte auf dem Chart sichtbar sind:
+1. Zahnrad-Symbol oben rechts im Chart
+2. Tab "Trading" öffnen
+3. Haken bei **"Executions"** setzen
+4. OK klicken
+
+### Richtigen Broker verbinden
+Je nach Instrument musst du den richtigen Broker im Paper Trading Panel haben:
+| Instrument | Broker |
+|------------|--------|
+| USTEC (US Tech 100) | TradeNation |
+| US30 (Dow Jones) | Forex.com |
+| GER40 (DAX) | Forex.com |
+
+Im Paper Trading Panel oben: auf den Account-Namen klicken → Broker wechseln falls nötig.
+
+---
+
+## Schritt 7 — Täglich: So exportierst du deine Daten
+
+### Nach dem Trading — diese 4 Dinge tun:
+
+**1. Balance History exportieren**
+- TradingView → unten "Paper Trading" Panel öffnen
+- Tab "Balance history" klicken
+- Oben rechts: Export-Symbol (Pfeil nach unten) klicken
+- CSV wird automatisch in Downloads gespeichert
+
+**2. Order History exportieren**
+- Tab "Order history" klicken
+- Oben rechts: Export-Symbol → "Export all"
+- CSV wird automatisch in Downloads gespeichert
+
+**3. Screenshots machen**
+- **WICHTIG:** Nicht den Kamera-Button in TradingView benutzen!
+- Stattdessen: **Cmd+Shift+4** auf dem Mac
+- Einen Bereich um den Chart ziehen
+- Screenshot landet automatisch auf dem Desktop
+- Screenshots nach `~/Google Drive/Trading_Journal_Katya/Screenshots/` verschieben
+
+**4. Alles pushen**
 ```bash
-brew install imagemagick
+cd ~/Documents/Trading && ./scripts/update.sh "$(date +%Y-%m-%d) katya session close"
 ```
 
-### GitHub Token erstellen
-1. Geh auf github.com → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
-2. "Generate new token (classic)" → Scope: `repo` → Generate
-3. Token kopieren, dann:
+---
+
+## Schritt 8 — KI Session starten
+
+Nach dem Trading öffnest du einen neuen Chat mit mir (deiner KI) und lädst hoch:
+- Balance History CSV
+- Order History CSV
+- Optional: Screenshots hier im Chat
+
+Ich analysiere alles, erstelle deinen Report und vergleiche mit Martin falls er auch gehandelt hat.
+
+**Wichtig beim Öffnen eines neuen Chats:** Sag mir kurz:
+> "Ich bin Katya. Bitte lies zuerst die README unter https://github.com/martin-sambauer/Trading"
+
+Dann bin ich sofort im Kontext und kann loslegen.
+
+---
+
+## Schritt 9 — Report ansehen
+
+Reports öffnest du immer in **Firefox** (nicht Chrome):
 ```bash
-git remote set-url origin https://katya-github-username:DEIN_TOKEN@github.com/martin-sambauer/Trading.git
+open -a Firefox ~/Documents/Trading/reports/katya/YYYY-MM-DD/report_standalone.html
 ```
 
-### Google Drive
-- Google Drive Desktop App installieren: drive.google.com/drive/download
-- Screenshots-Ordner anlegen: `~/Google Drive/Trading_Journal/Screenshots_Katya/`
+Oder einfach die HTML-Datei im Finder doppelklicken — falls sie in Firefox öffnet, perfekt.
 
 ---
 
-## Schritt 3 — TradingView Setup
+## Häufige Fragen
 
-### Execution Marks aktivieren
-1. Chart öffnen → Zahnrad-Symbol (oben rechts) → Tab "Trading"
-2. "Executions" aktivieren → OK
-3. Paper Trading Panel öffnen → richtigen Broker verbinden
+**Was ist der Unterschied zwischen Balance History und Order History?**
+Balance History zeigt was wirklich passiert ist (Gewinne, Verluste, Kommissionen). Order History zeigt alle Orders inklusive gecancelte — das hilft zu verstehen was du ursprünglich geplant hattest.
 
-### Broker für Execution Marks
-| Instrument | Broker im Panel |
-|------------|----------------|
-| USTEC | TradeNation |
-| US30, GER40 | Forex.com |
+**Warum Cmd+Shift+4 statt TradingView Kamera?**
+Der TradingView Kamera-Button speichert die Execution Marks (Pfeile für Ein/Ausstieg) nicht. Mit Cmd+Shift+4 fotografierst du was du wirklich siehst — inklusive aller Marks.
 
----
+**Was wenn ich einen Tag nicht handle?**
+Kein Problem — einfach nichts hochladen. Die KI weiß dann dass an diesem Tag nicht gehandelt wurde.
 
-## Schritt 4 — Täglicher Workflow
-
-### Nach dem Trading
-1. **Balance History exportieren:**
-   TradingView → Paper Trading Panel → "Balance History" Tab → Export CSV
-
-2. **Order History exportieren:**
-   TradingView → Paper Trading Panel → "Order History" Tab → Export (All) CSV
-
-3. **Screenshots machen:**
-   - `Cmd+Shift+4` für jeden gehandelten Markt (zeigt Execution Marks)
-   - Screenshots nach `~/Google Drive/Trading_Journal/Screenshots_Katya/` verschieben
-
-4. **Alles hochladen und pushen:**
-```bash
-cd ~/Documents/Trading && ./scripts/update_katya.sh "$(date +%Y-%m-%d) session close"
-```
-
-5. **KI Session starten:**
-   - CSV-Dateien hier im Chat hochladen
-   - KI erstellt automatisch deinen Report und den Vergleichsreport
+**Kann ich meine eigene Methode entwickeln?**
+Ja! Martins Methode in `method/METHOD.md` ist ein Ausgangspunkt. Du kannst deine eigene entwickeln und wir dokumentieren sie parallel.
 
 ---
 
-## Was die KI mit deinen Daten macht
+## Glossar (wichtigste Begriffe)
 
-Die KI liest deine Daten und erstellt:
-- Einen persönlichen Report (Dashboard, Sessions, Trades, Behaviour, Methode)
-- Einen Vergleichsreport mit Martin (gleicher Tag, gleiche Märkte)
-- Tracking deiner eigenen Behaviour Patterns über Zeit
-- Hypothesen über dein Trading-Verhalten
+Lies `method/TERMINOLOGY.md` für alle Begriffe. Die wichtigsten:
 
----
-
-## Wichtige Hinweise
-
-- **Reports öffnen:** immer Firefox verwenden (Chrome hat Einschränkungen)
-- **Methode:** Lies `method/METHOD.md` — das ist Martins Methode, du kannst deine eigene entwickeln
-- **Terminologie:** Lies `method/TERMINOLOGY.md` — damit wir die gleiche Sprache sprechen
-- **Fragen:** Einfach die KI fragen — sie kennt das gesamte System
+- **Aircushion** — stabiler Abstand zwischen Preis und SMA20 im Trend
+- **Battle Zone** — Konsolidierungszone bevor ein Breakout
+- **SMA Crossing** — SMA20 kreuzt SMA200, starkes Trendsignal
+- **Daily Bias** — übergeordnete Richtungserwartung für den Tag
+- **Anchor Trade** — der wichtigste Trade des Tages
+- **FOMO Top Scale** — zu spät einsteigen und sofort auf Maximum skalieren (Fehler!)
 
 ---
 
-## Deine erste Session
+## Los geht's!
 
-Wenn du bereit bist zu starten:
-1. Mach ein paar Paper-Trades in TradingView
-2. Exportiere Balance History + Order History
-3. Mach Screenshots mit Execution Marks
-4. Lade alles hier hoch
-5. Die KI erstellt deinen ersten Report
-
-Viel Spaß! 🚀
+Sag mir wo du gerade stehst und ich führe dich durch den nächsten Schritt. 🚀

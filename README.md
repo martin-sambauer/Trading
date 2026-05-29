@@ -1,206 +1,214 @@
-<!-- Version: 1.3 | Letzte Änderung: 2026-05-28 -->
+<!-- Version: 1.4 | Letzte Änderung: 2026-05-29 -->
 # Trading Journal — Martin & Katya Sambauer
 
-## Technisches Setup & Wiederherstellung
-Bei Computerausfall oder neuem Gerät: siehe `TECHSTACK.md` — komplette Schritt-für-Schritt Anleitung.
+## Technical Setup & Recovery
+In case of computer failure or new device: see `TECHSTACK.md` — complete step-by-step recovery guide.
 
 ---
 
-## Für KI-Agenten: Lies das zuerst
-Dieses Repository ist das zentrale Gehirn des Trading-Entwicklungssystems von Martin und Katya Sambauer.
-Alles ist so dokumentiert dass du als KI sofort einspringen und nahtlos weiterarbeiten kannst.
+## For AI Agents: Read This First
 
-### Pflichtlektüre vor jeder Session
-1. Diese README — Kontext, Logistik, aktueller Stand
-2. `method/METHOD.md` — die Handelsmethode
-3. `method/TERMINOLOGY.md` — alle Begriffe
-4. `method/HYPOTHESES.md` — aktuelle Verhaltens-Hypothesen
-5. `data/traders/martin/master_stats.csv` — Martins aggregierte Performance
-6. `data/traders/katya/master_stats.csv` — Katyas aggregierte Performance (sobald vorhanden)
-7. Letzter Report in `reports/martin/` oder `reports/katya/`
+This repository is the central brain of the trading development system for Martin and Katya Sambauer.
+Everything is documented so you as an AI can immediately step in and continue seamlessly.
 
-### KI-Anweisungen pro Session-Typ
-- **Martin solo:** Lies `data/traders/martin/` und erstelle Report in `reports/martin/`
-- **Katya solo:** Lies `data/traders/katya/` und erstelle Report in `reports/katya/`
-- **Vergleich:** Lies beide Ordner und erstelle zusätzlich Report in `reports/comparison/`
-- **Immer:** Nach jeder Session README, METHOD.md, TERMINOLOGY.md, HYPOTHESES.md updaten falls neue Erkenntnisse
+### File Delivery Rule — ALWAYS FOLLOW
+When delivering updated files to Martin:
+1. Create a ZIP containing ONLY changed files (not the full repo)
+2. Present the ZIP as a single download
+3. Provide ONE terminal command that does everything: unzip + git add + commit + push
+4. Martin does: download ZIP → paste one command → done
+5. Never ask Martin to manually copy, move or rename files
+6. Never deliver more than one ZIP per update
+
+**Template command:**
+```bash
+cd ~/Downloads && unzip -o ZIPNAME.zip -d ~/Documents/ && cd ~/Documents/Trading && git add -A && git commit -m "vX.X - description" && git push origin main
+```
+
+### Mandatory Reading Before Every Session
+1. This README — context, logistics, current status
+2. `method/METHOD.md` — the trading method
+3. `method/TERMINOLOGY.md` — all terms defined
+4. `method/HYPOTHESES.md` — current behaviour hypotheses
+5. `method/SITUATIONS.md` — documented market situation types
+6. `data/traders/martin/master_stats.csv` — Martin's aggregated performance
+7. `data/traders/katya/master_stats.csv` — Katya's aggregated performance (when available)
+8. Latest report in `reports/martin/` or `reports/katya/`
+
+### Hypothesis Check — MANDATORY for every data analysis
+**Every time you analyse trading data, check each open hypothesis:**
+- Is there evidence that confirms the hypothesis?
+- Is there evidence that contradicts it?
+- Update `method/HYPOTHESES.md` accordingly with date and data reference
+- If confirmed by 5+ data points → mark as "Confirmed"
+- If contradicted → mark as "Refuted" with explanation
+
+Current hypotheses to check: H1, H2, H3, H4, H5
+
+### AI Instructions per Session Type
+- **Martin solo:** Read `data/traders/martin/` → report in `reports/martin/`
+- **Katya solo:** Read `data/traders/katya/` → report in `reports/katya/`
+- **Comparison:** Read both → additional report in `reports/comparison/`
+- **Always:** Update README, METHOD, TERMINOLOGY, HYPOTHESES, SITUATIONS if new insights
 
 ---
 
-## Die Trader
+## The Traders
 
 ### Martin Sambauer
-- Aktiver Daytrader, Papertrading zur Methodenentwicklung
-- Ziel: Eigene analytisch beschriebene Methode entwickeln
-- Hauptinstrument: USTEC, GER40 morning session
-- Typische Handelszeiten: 07:00–09:00 (GER40), 11:00–14:00 (USTEC), 16:30–17:30 (US30/SPX)
+- Active daytrader, paper trading for method development
+- Goal: develop own analytically described method
+- Main instruments: USTEC, GER40 morning session, JAPAN225 night session
+- Typical trading hours: 07:00–09:00 (GER40), 11:00–14:00 (USTEC), 16:30–17:30 (US30/SPX), 22:00–09:00 JST (JAPAN225)
 - GitHub: martin-sambauer
-- Lokales Repo: `~/Documents/Trading`
-- Google Drive Screenshots: `~/Google Drive/Trading_Journal/Screenshots/`
+- Local repo: `~/Documents/Trading`
+- Google Drive screenshots: `~/Google Drive/Trading_Journal/Screenshots/`
 
 ### Katya Sambauer
-- Aktive Traderin, eigenes Setup parallel zu Martin
-- Ziel: Parallele Datenerfassung für Verhaltensvergleich
-- Instrumente: wird dokumentiert sobald bekannt
-- GitHub: wird als Collaborator hinzugefügt
-- Lokales Repo: `~/Documents/Trading` (geklont vom selben Repo)
-- Google Drive Screenshots: eigener Ordner (wird konfiguriert)
+- Active trader, own setup parallel to Martin
+- Goal: parallel data collection for behaviour comparison
+- GitHub: to be added as Collaborator
+- Local repo: `~/Documents/Trading` (cloned from same repo)
+- Onboarding guide: `KATYA_ONBOARDING.md`
 
 ---
 
-## Trading-Setup (beide Trader)
-- **Plattform:** TradingView (Charts + Ausführung) + TradeNation / Forex.com (Broker)
-- **Timeframes:** 1D (links, Kontext/Bias) + 5M (rechts, Einstieg/Ausführung)
-- **Indikatoren:** BB 20, SMA20, SMA200, PDH/PDL, PWH/W
+## Trading Setup (both traders)
+- **Platform:** TradingView (charts + execution) + TradeNation / Forex.com / WH SelfInvest (brokers)
+- **Timeframes:** 1D (left, context/bias) + 5M (right, entry/execution)
+- **Indicators:** BB 20, SMA20, SMA200, PDH/PDL, PWH/W
 
-### Gehandelte Instrumente
-| Symbol | TradingView | Broker | Typische Session |
-|--------|-------------|--------|-----------------|
-| USTEC | TRADENATION:USTEC | TradeNation | 11:00–14:00 Uhr |
-| US30 | FOREXCOM:US30 | Forex.com | 16:30–17:30 Uhr |
-| GER40 | FOREXCOM:GER40 | Forex.com | 07:00–09:00 Uhr |
-| SPX | TVC:SPX | TradingView | 16:30–17:30 Uhr |
-| JAPAN225 | — | — | Gelegentlich |
-
-### Kontext-Indikatoren (nicht getradet)
-| Symbol | Zweck |
-|--------|-------|
-| OILGAS | Antizyklischer Indikator |
+### Instruments
+| Symbol | TradingView | Broker | Typical Session |
+|--------|-------------|--------|----------------|
+| USTEC | TRADENATION:USTEC | TradeNation | 11:00–14:00 |
+| US30 | FOREXCOM:US30 | Forex.com | 16:30–17:30 |
+| GER40 | FOREXCOM:GER40 | Forex.com | 07:00–09:00 |
+| SPX | TVC:SPX | TradingView | 16:30–17:30 |
+| JAPAN225 | WHSELFINVEST:JAPAN225CFD | WH SelfInvest | 22:00–09:00 JST |
+| OILGAS | — | — | Context indicator only |
 
 ---
 
-## Projektstruktur
+## Project Structure
 ```
 Trading/
-├── README.md                          ← Du bist hier (v1.3)
-├── CHANGELOG.md                       ← Alle Änderungen
-├── TECHSTACK.md                       ← Komplettes technisches Setup
-├── KATYA_ONBOARDING.md                ← Anleitung für Katya
+├── README.md                          ← You are here (v1.4)
+├── CHANGELOG.md                       ← All changes documented
+├── TECHSTACK.md                       ← Complete technical setup
+├── KATYA_ONBOARDING.md                ← Onboarding guide for Katya
 ├── method/
-│   ├── METHOD.md                      ← Handelsmethode (lebendes Dokument)
-│   ├── TERMINOLOGY.md                 ← Alle Begriffe
-│   └── HYPOTHESES.md                  ← Verhaltens-Hypothesen
+│   ├── METHOD.md                      ← Trading method (living document)
+│   ├── TERMINOLOGY.md                 ← All terms in English
+│   ├── HYPOTHESES.md                  ← Behaviour hypotheses
+│   └── SITUATIONS.md                  ← Market situation library
 ├── data/
 │   ├── traders/
 │   │   ├── martin/
-│   │   │   ├── trades/YYYY-MM-DD.csv  ← Tägliche Trades
-│   │   │   ├── market/YYYY-MM-DD_SYMBOL.csv ← 5M Kerzen
-│   │   │   ├── exports/               ← Rohe TradingView Exports
-│   │   │   └── master_stats.csv       ← Aggregierte Stats
+│   │   │   ├── trades/YYYY-MM-DD.csv
+│   │   │   ├── market/YYYY-MM-DD_SYMBOL.csv
+│   │   │   ├── exports/
+│   │   │   └── master_stats.csv
 │   │   └── katya/
 │   │       ├── trades/YYYY-MM-DD.csv
 │   │       ├── market/YYYY-MM-DD_SYMBOL.csv
 │   │       ├── exports/
 │   │       └── master_stats.csv
 ├── reports/
-│   ├── martin/
-│   │   └── YYYY-MM-DD/
-│   │       ├── report.html            ← Täglicher Report
-│   │       └── report_standalone.html ← Standalone mit eingebetteten Bildern
-│   ├── katya/
-│   │   └── YYYY-MM-DD/
-│   │       ├── report.html
-│   │       └── report_standalone.html
-│   └── comparison/
-│       └── YYYY-MM-DD/
-│           └── report.html            ← Vergleichsreport beide Trader
+│   ├── martin/YYYY-MM-DD/report.html
+│   ├── katya/YYYY-MM-DD/report.html
+│   └── comparison/YYYY-MM-DD/report.html
 ├── screenshots/
-│   ├── martin/                        ← Martins komprimierte Charts
-│   └── katya/                         ← Katyas komprimierte Charts
+│   ├── martin/
+│   └── katya/
 └── scripts/
-    ├── update.sh                      ← Tägliches Push-Script
-    └── fetch_market_data.py           ← Marktdaten-Download
+    ├── update.sh
+    └── fetch_market_data.py
 ```
 
-**Hinweis:** Übergangsweise liegen Martins Daten noch in `data/trades/`, `data/market/` und `reports/2026-05-28/` — werden beim nächsten Cleanup in die neue Struktur migriert.
+**Note:** Martin's Day 1 data is in `data/trades/`, `data/market/`, `reports/2026-05-28/` — will be migrated to new structure.
 
 ---
 
-## Account-System
-| Account-Typ | Beschreibung |
-|-------------|-------------|
-| `paper` | Papertrading — kein echtes Geld |
-| `live` | Live-Account — echtes Geld |
+## Account System
+| Type | Description |
+|------|-------------|
+| `paper` | Paper trading — no real money |
+| `live` | Live account — real money |
 
-Jeder Trade hat eine `account_id` Spalte. P&L-Vergleiche nur innerhalb desselben Account-Typs.
-
----
-
-## Dubletten-Regel
-Jeder Trade ist eindeutig durch `Datum + Zeit + Symbol + Trader`.
-Beim Einlesen neuer Daten werden bestehende Einträge nie überschrieben — nur ergänzt.
+P&L comparisons only within same account type. Account resets are documented.
 
 ---
 
-## Täglicher Workflow
+## Duplicate Rule
+Every trade is uniquely identified by `Date + Time + Symbol + Trader`.
+Never overwrite existing entries — append only.
 
-### Was jeder Trader liefert
+---
+
+## Daily Workflow
+
+### What each trader delivers
 1. **Balance History CSV** — TradingView → Paper Trading → Balance History → Export
-2. **Order History CSV** — TradingView → Paper Trading → Order History → Export
-3. **Screenshots** — `Cmd+Shift+4` mit sichtbaren Execution Marks, in Google Drive ablegen
-4. **Kommentare** — Beobachtungen, Entscheidungsgründe
+2. **Order History CSV** — TradingView → Paper Trading → Order History → Export (All)
+3. **Screenshots** — `Cmd+Shift+4` with Execution Marks visible (NOT TradingView camera button)
+4. **Comments** — observations, reasons for decisions
 
-### Was die KI macht
-1. Daten parsen → Trade-Tabelle + master_stats.csv updaten
-2. Tagesreport HTML erstellen (5 Seiten: Dashboard, Sessions, Trades, Behaviour, Methode)
-3. Standalone Report mit eingebetteten Screenshots generieren
-4. Falls beide Trader Daten geliefert haben → Vergleichsreport erstellen
-5. Methode / Terminologie / Hypothesen updaten falls neue Erkenntnisse
-6. CHANGELOG updaten
-7. README Status updaten
+### What the AI does
+1. Parse data → create trade table → update master_stats.csv
+2. **Check all hypotheses** (H1–H5) against new data → update HYPOTHESES.md
+3. Check for new market situations → update SITUATIONS.md if relevant
+4. Create HTML report (5 pages: Dashboard, Sessions, Trades, Behaviour, Method)
+5. Create standalone report with embedded screenshots
+6. If both traders have data → create comparison report
+7. Update METHOD, TERMINOLOGY, HYPOTHESES, SITUATIONS if new insights
+8. Update CHANGELOG
+9. Update README status
 
-### Screenshot-Konvention
-- **Execution Marks aktivieren:** Chart-Einstellungen → Tab "Trading" → "Executions"
-- **Broker verbinden:** TradeNation für USTEC, Forex.com für US30/GER40
-- **Screenshot:** `Cmd+Shift+4` (zeigt Execution Marks, TradingView Kamera-Button nicht)
-- **Benennung:** automatisch durch Mac `Screenshot YYYY-MM-DD at HH.MM.SS.png` oder TradingView `SYMBOL_DATUM.png`
+### Screenshot Convention
+- **Enable Execution Marks:** Chart settings (gear) → "Trading" tab → "Executions"
+- **Connect broker:** TradeNation for USTEC, Forex.com for US30/GER40, WH SelfInvest for JAPAN225
+- **Screenshot:** `Cmd+Shift+4` — captures what you see including marks
+- **Save to:** `~/Google Drive/Trading_Journal/Screenshots/`
+- **Auto-compressed** to `screenshots/` on next push via `update.sh`
 
-### Report öffnen
+### Open Reports
 ```bash
 open -a Firefox ~/Documents/Trading/reports/martin/YYYY-MM-DD/report_standalone.html
 ```
-**Hinweis:** Firefox verwenden — Chrome blockiert Base64-Bilder bei lokalen Dateien.
+**Note:** Use Firefox — Chrome blocks Base64 images in local files.
 
 ---
 
-## Vergleichsreport (Martin vs. Katya)
-Wenn beide Trader an einem Tag gehandelt haben, erstellt die KI einen Vergleichsreport mit:
-- P&L Vergleich side-by-side
-- Win Rate Vergleich
-- Behaviour Pattern Vergleich (wer macht welche Fehler häufiger?)
-- Methoden-Abweichungen (gleicher Markt, gleiche Zeit — unterschiedliche Entscheidungen?)
-- Live vs. Paper Vergleich (falls relevant)
-
----
-
-## Täglicher Push (ein Befehl)
+## Daily Push (one command)
 ```bash
 cd ~/Documents/Trading && python3 scripts/fetch_market_data.py && ./scripts/update.sh "$(date +%Y-%m-%d) session close"
 ```
 
 ---
 
-## CSV-Formate
+## CSV Formats
 
 ### Balance History
 ```
 Time, Balance before, Balance after, Realized PnL (value), Realized PnL (currency), Action
 ```
 
-### Order History (für Intentions-Analyse)
+### Order History
 ```
 Symbol, Side, Type, Quantity, Limit price, Stop price, Fill price, Status, Commission, Placing time, Closing time, Order ID
 ```
-Enthält auch gecancelte Orders → zeigt Spike Catcher und ursprüngliche Intention.
+Includes cancelled orders → shows Spike Catchers and original intentions.
 
 ---
 
-## Aktueller Status
-- **Letztes Update:** 2026-05-28
-- **Trading-Tage dokumentiert:** 1 (Martin), 0 (Katya)
-- **Methode Version:** 0.1
-- **README Version:** 1.3
-- **Dokumentierte Behaviour Patterns:** 2
-- **Offene Hypothesen:** 4 (H1–H4)
-- **Martin Kontostand:** $17,348.87 (Start: $10,000 am 2026-05-28)
-- **Katya Kontostand:** noch nicht gestartet
+## Current Status
+- **Last update:** 2026-05-29
+- **Trading days documented:** 1 full (Martin 2026-05-28), 1 partial (Martin Japan session 2026-05-29)
+- **Method version:** 0.1
+- **README version:** 1.4
+- **Documented behaviour patterns:** 3 (FOMO Top Scale, Context Switch Exit, Concentration Loss)
+- **Open hypotheses:** 5 (H1–H5)
+- **Documented situations:** 1 (Barbwire Reversal)
+- **Martin account balance:** $17,348.87 + Japan session (open)
+- **Katya:** not yet started

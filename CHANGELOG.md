@@ -58,3 +58,16 @@
 - Neue Ordnerstruktur für zwei Trader (`data/traders/martin/`, `data/traders/katya/`)
 - Vergleichsreport-Konzept (`reports/comparison/`)
 - Screenshots aufgeteilt nach Trader (`screenshots/martin/`, `screenshots/katya/`)
+
+## [1.4] 2026-05-29
+### Added
+- `method/SITUATIONS.md` — market situation library, first entry: Barbwire Reversal
+- Barbwire + Barbwire Reversal in TERMINOLOGY.md
+- Pattern #3: Concentration Loss
+- H5: Barbwire Reversal Hypothesis
+- `KATYA_ONBOARDING.md` v1.1 — complete step-by-step guide with TradingView setup
+
+### Changed
+- `method/TERMINOLOGY.md` — fully translated to English
+- `method/HYPOTHESES.md` — fully translated to English
+- README v1.4 — mandatory hypothesis check for every data analysis, JAPAN225 added, Katya fully integrated

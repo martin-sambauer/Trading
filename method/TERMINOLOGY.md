@@ -1,82 +1,113 @@
-<!-- Version: 1.1 | Letzte Änderung: 2026-05-28 -->
-# Terminologie
-*Kombination aus Standard-Terminologie und eigenen Begriffen. Wird laufend erweitert.*
+<!-- Version: 1.2 | Letzte Änderung: 2026-05-29 -->
+# Terminology
+*Combination of standard trading terminology and proprietary terms.
+All terms are in English for universal AI readability. Continuously updated.*
 
 ---
 
-## Eigene Begriffe
+## Proprietary Terms
 
 ### Aircushion
-Stabiler, konstanter Abstand zwischen Preis und SMA20 in der Trend-Phase.
-Intakter Aircushion = Trend läuft. Kollabierender Aircushion (Preis berührt SMA20) = Warnsignal für Trendende.
+Stable, constant gap between price and SMA20 during a trend phase.
+Intact aircushion = trend is running. Collapsing aircushion (price approaches SMA20) = warning signal for trend end.
+The longer the aircushion stays stable, the stronger the trend phase.
 
 ### Battle Zone
-Preiszone wo Käufer und Verkäufer kämpfen — erkennbar an wiederholten Reversals und enger Kursrange. Entspricht einer Konsolidierungszone.
-**Breakout aus der Battle Zone = starkes Einstiegssignal.**
+Price zone where buyers and sellers fight — identifiable by repeated reversals and tight range.
+**Breakout from Battle Zone = strong entry signal.**
+Key: no return after breakout confirms the trend.
+
+### Barbwire
+A price area where candles show long wicks in BOTH directions — up AND down. Small bodies, long wicks. Price is "trembling" in a tight zone, unable to decide direction. Visually resembles barbed wire on a chart.
+Barbwire is NOT an entry signal — it is an **attention signal** that a strong move is building up.
+See `method/SITUATIONS.md` for full documentation.
+
+### Barbwire Reversal
+Specific situation where Barbwire occurs in a context suggesting an upcoming strong move — typically against the prior trend.
+Signal constellation: horizontal SMA20 + fast SMA crossing + Barbwire candles + compressed Bollinger Bands.
+First documented: JAPAN225, 2026-05-29.
 
 ### Target Derangement Syndrome (TDS)
-Eigener Begriff. Psychologischer Fehler: unrealistisch hohes Ziel (z.B. ATH) als Target setzen.
-Konsequenz: Zu lange halten, falsche Erwartungen, Fehlentscheidungen wenn das Ziel nicht erreicht wird.
+Psychological error that occurs when price is already 60–80% toward a target but momentum has already reversed.
+**Sequence:** Price near target → momentum reverses → instead of exiting, position is scaled up because "so close" → price runs against → large losses.
+**Important:** TDS is NOT the unrealistic target itself (that can be a deliberate Spike Catcher) — it's holding onto the target despite reversed momentum combined with scaling up.
 
-### Markt-Synchronizität
-Zustand wenn mehrere Märkte (USTEC, US30, GER40, SPX) gleichzeitig dieselbe Phase oder dasselbe Muster zeigen.
-Angelehnt an das Metronom-Experiment: 5 Metronome auf gemeinsamer schwingender Plattform synchronisieren sich.
-**Arten:**
-- Candle-Sync: Kerzen formen gleichzeitig ähnliche Muster
-- Bollinger-Phasen-Sync: Märkte sind gleichzeitig in Range oder Trend-Phase
+### Spike Catcher
+Deliberately far-away limit order that is NOT set as a realistic target but to automatically capture unexpected strong moves (spikes).
+Used together with a close Mental Stop.
+Not TDS — because the expectation was never that the target would be reached.
+
+### Mental Stop
+Subjective, experience-based feeling of when a trade is "wrong" — triggers early, often before price reaches a technical level. Protects the individual trade. Closer to price than the Account Fuse.
+
+### Account Fuse
+The hard daily loss limit that protects the account — regardless of whether the trade setup still appears intact. Rarely triggered. Absolute lower boundary. Triggers significantly later than the Mental Stop.
+
+### Market Synchronicity
+State when multiple markets (USTEC, US30, GER40, SPX) simultaneously show the same phase or pattern.
+Inspired by the metronome experiment: 5 metronomes on a shared platform synchronize themselves.
+**Types:**
+- Candle Sync: candles form similar patterns simultaneously
+- Bollinger Phase Sync: markets are simultaneously in range or trend phase
 
 ### Frontrunner
-Markt der innerhalb einer synchronen Bewegung vorausläuft. Gibt Richtung und Timing vor.
+Market that leads within a synchronized move. Sets direction and timing.
 
 ### Laggard
-Markt der nachläuft. Bietet Einstiegsmöglichkeiten basierend auf dem Frontrunner-Signal.
+Market that follows. Offers entry opportunities based on Frontrunner signal.
 
-### Antizyklischer Marker
-Instrument das nicht direkt getradet wird, aber als Kontext-Indikator dient.
-**Beispiel:** OILGAS (Öl) läuft oft gegenläufig zu Aktienindizes — steigendes Öl kann fallende Indizes ankündigen und umgekehrt.
+### Anticyclical Marker
+Instrument not directly traded but used as context indicator.
+**Example:** OILGAS (Oil) often runs counter to equity indices.
 
-### FOMO Top Scale (Behaviour Pattern #1)
-Zu spätes Einsteigen in eine bereits weit gelaufene Bewegung + sofortiges Skalieren auf Maximum.
-Doppeltes Risiko: schlechter Einstiegspreis + keine Puffer-Reserve bei Gegenbewegung.
-Mentaler Stop wird ausgelöst obwohl das Setup oft noch intakt ist.
-**Beispiel:** 2026-05-28 12:15 USTEC Long −$966
-
-### Context Switch Exit (Behaviour Pattern #2)
-Externes Ereignis (Termin, Ablenkung, persönliche Situation) erzwingt eine Handelsentscheidung die ohne diesen Druck nicht getroffen würde.
-**Varianten:** Vorzeitiger Exit, oder Einstieg in einen Trade der nicht dem Setup entspricht.
-**Beispiel:** 2026-05-28 13:58 USTEC Short −$336 (Dinner-Termin)
+### Anchor Trade
+The decisive trade of a day — usually the biggest winner that sets the tone.
+**Example:** 2026-05-28 11:13 USTEC Long +$2,911
 
 ---
 
-## Standard-Terminologie
+## Behaviour Patterns
+
+### FOMO Top Scale (Pattern #1)
+Late entry into an already far-moved position + immediately scaling to maximum.
+Double risk: bad entry price + no buffer reserve.
+Mental Stop triggers even though setup is often still intact.
+**Example:** 2026-05-28 12:15 USTEC Long −$966
+
+### Context Switch Exit (Pattern #2)
+External event (appointment, distraction) forces a trading decision under pressure.
+**Variants:** Premature exit, or entry into a trade that doesn't match the setup.
+**Example:** 2026-05-28 13:58 USTEC Short −$336 (dinner appointment)
+
+### Concentration Loss (Pattern #3)
+Reduced focus due to parallel activities (conversations, distractions) leads to missing obvious signals and underperformance.
+**Example:** 2026-05-29 Japan session — Barbwire Reversal partially missed due to conversation with Claude. Potential ~$5,000, realized ~$1,763.
+
+---
+
+## Standard Terminology
 
 ### SMA (Simple Moving Average)
-Einfacher gleitender Durchschnitt.
-- **SMA20:** Kurzfristiger Trend, Haupt-Referenz für Aircushion und Phase-Erkennung
-- **SMA200:** Langfristiger Trend, Breakout = starkes Signal
+- **SMA20:** Short-term trend, main reference for aircushion and phase detection
+- **SMA200:** Long-term trend, breakout = strong signal
 
 ### PDH / PDL
-Previous Day High / Previous Day Low. Wichtige Support/Resistance-Levels.
+Previous Day High / Previous Day Low.
 
 ### PWH / W
 Previous Week High / Weekly Level.
 
 ### SMA Crossing
-Moment wenn SMA20 den SMA200 kreuzt. Starkes Trendsignal — zeigt Phasenwechsel an.
+SMA20 crosses SMA200. Strong trend signal.
 
 ### Bollinger Bands (BB 20)
-Volatilitätsband um SMA20 (±2 Standardabweichungen). Verwendet für Phasen-Erkennung (Range vs. Trend).
+Volatility band around SMA20 (±2 standard deviations).
 
-### Pyramidierung
-Schrittweises Erhöhen der Positionsgröße während ein Trade läuft.
-Martin's Stil: 10er-Blöcke, Aufbau bis zu 30-40 Einheiten.
+### Pyramiding
+Stepwise increase of position size while a trade runs. Style: 10-unit blocks up to 30-40 units.
 
 ### Confluence
-Mehrere unabhängige Signale zeigen dieselbe Richtung gleichzeitig. Je mehr Confluence, desto höher die Wahrscheinlichkeit.
+Multiple independent signals pointing in the same direction simultaneously.
 
 ### Daily Bias
-Übergeordnete Richtungserwartung für den Tag, basierend auf dem 1D Chart und den Vortageskerzen.
-
-### Anchor Trade
-Der entscheidende Trade eines Tages — meist der größte Gewinner der den Ton setzt.
-**Beispiel:** 2026-05-28 11:13 USTEC Long +$2,911
+Overall directional expectation for the day based on the 1D chart.
