@@ -4,19 +4,19 @@
 ## For New AI: How to start
 1. Read this file completely
 2. Read README.md
-3. Check `data/traders/trader a/exports/` for latest raw CSVs
-4. Say to Trader A in German: "Ich bin auf dem aktuellen Stand. [Was noch fehlt]."
-5. Never ask Trader A to re-explain what's already in this file
+3. Check `data/traders/martin/exports/` for latest raw CSVs
+4. Say to Martin in German: "Ich bin auf dem aktuellen Stand. [Was noch fehlt]."
+5. Never ask Martin to re-explain what's already in this file
 
 ## Repo
-Private: https://github.com/trader-journal/Trading
-Token: Trader A stores it locally. Ask him to run:
+Private: https://github.com/martin-sambauer/Trading
+Token: Martin stores it locally. Ask him to run:
 ```bash
-git remote set-url origin https://trader-journal:TOKEN@github.com/trader-journal/Trading.git
+git remote set-url origin https://martin-sambauer:TOKEN@github.com/martin-sambauer/Trading.git
 ```
 
-## Who is Trader A
-- Daytrader, paper trading on TradingView (account: trader_account USD)
+## Who is Martin
+- Daytrader, paper trading on TradingView (account: arthurdigbysellers2 USD)
 - Building his own trading method — see method/METHOD.md
 - Language: German
 - Brokers: TradeNation (USTEC), Forex.com (US30/GER40), WH SelfInvest (JAPAN225)
@@ -28,8 +28,8 @@ git remote set-url origin https://trader-journal:TOKEN@github.com/trader-journal
 - Estimated total: ~$19,100+
 
 ## Raw Data Location
-All CSVs Trader A uploads are saved to `data/traders/trader a/exports/` and pushed automatically.
-Check there first before asking Trader A to re-upload anything.
+All CSVs Martin uploads are saved to `data/traders/martin/exports/` and pushed automatically.
+Check there first before asking Martin to re-upload anything.
 
 ## Day 1 — 2026-05-28 (COMPLETE)
 - 33 trades, +$7,349, Win Rate 78.8%
@@ -47,7 +47,7 @@ Check there first before asking Trader A to re-upload anything.
 - SMA20 horizontal → fast crossing → Barbwire candles → 600+ point move
 - Missed ~$3,000 due to Concentration Loss (Pattern #3, distracted by Claude chat)
 
-**Raw CSVs in repo** (`data/traders/trader a/exports/2026-05-29/`):
+**Raw CSVs in repo** (`data/traders/martin/exports/2026-05-29/`):
 - paper-trading-balance-history-2026-05-29.csv
 - paper-trading-order-history-2026-05-29.csv
 - paper-trading-trading-journal-2026-05-29.csv
@@ -59,10 +59,10 @@ Check there first before asking Trader A to re-upload anything.
 - JAPAN225CFD_2026-05-28_21-15-00_6982c.png
 
 ## Open Items
-- [ ] Japan session report erstellen (reports/trader a/2026-05-29/)
+- [ ] Japan session report erstellen (reports/martin/2026-05-29/)
 - [ ] master_stats.csv mit Japan-Daten updaten
-- [ ] Trader B GitHub account (waiting)
-- [ ] Data migration: data/trades/ → data/traders/trader a/trades/
+- [ ] Katya GitHub account (waiting)
+- [ ] Data migration: data/trades/ → data/traders/martin/trades/
 
 ## Key Method Insights (latest)
 - Barbwire Reversal documented in SITUATIONS.md
