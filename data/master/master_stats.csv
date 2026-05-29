@@ -1,3 +1,4 @@
 Session_Date,Trader,Broker_Assets,Net_PnL,Win_Rate,Avg_T2BE,Min_T2BE,Max_T2BE,Net_PnL_PP,Worst_Loss_PP,Most_Lucrative_PP,Net_PnL_LP,Worst_Loss_LP,Most_Lucrative_LP,Max_Cluster_DD_PP,Avg_Cluster_DD_PP,Max_Cluster_DD_LP,Avg_Cluster_DD_LP,Stress_Sentiment_PP,Stress_Sentiment_LP,Stress_Sentiment_T2BE
 2026-05-28,Martin,"TradeNation:USTEC;Forex.com:US30",7349.00,78.8,00:01:45,00:00:00,00:14:10,5240.00,-150.00,"2026-05-28_USTEC_Long",2109.00,-450.00,"2026-05-28_US30_Short",-85.00,-25.00,-290.00,-115.00,GREEN,GREEN,GREEN
 2026-05-29,Martin,WHSelfInvest:JAPAN225,3880.00,78.6,00:21:05,00:00:00,01:24:08,0.00,0.00,None,3880.00,-1100.00,"2026-05-28_JAPAN225_Short",0.00,0.00,-1100.00,-340.00,GREEN,RED,RED
+2026-05-29,Martin,"Forex.com:US30;TradeNation:USTEC;WHSelfInvest:JAPAN225;Forex.com:SPX500",6568.00,71.4,00:04:22,00:00:00,00:31:15,6490.00,-304.00,"2026-05-29_US30_Long",78.00,-14.00,"2026-05-29_JAPAN225_Short",-180.00,-45.00,-14.00,-7.00,GREEN,GREEN,YELLOW

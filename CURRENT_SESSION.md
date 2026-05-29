@@ -3,91 +3,58 @@
 
 ## For New AI: How to start
 1. Read this file completely
-2. Read README.md v1.9
-3. Read `method/OBSERVATIONS.md` — new editorial rubric, mandatory reading
-4. `data/master/master_trades.csv` — alle Trades via Filesystem MCP lesbar (Achtung: enthält Duplikate, Fix ausstehend)
-5. `data/master/master_stats.csv` — Session-Übersicht (dritte Zeile fehlerhaft, Fix ausstehend)
-6. Say to Martin in German: "Ich bin auf dem aktuellen Stand. [Was noch fehlt]."
-7. Never ask Martin to re-explain what's already in this file
+2. Read README.md v2.0
+3. Read method/OBSERVATIONS.md v1.1 (OBS-003 Key-Level Validation Strategy neu)
+4. Read data/master/master_stats.csv (3 Sessions, v2.0 Schema)
+5. Say to Martin in German: "Ich bin auf dem aktuellen Stand. [Was noch fehlt]."
 
 ## Filesystem MCP
-Claude hat direkten Zugriff auf `/Users/martinsambauer/Documents/Trading/`.
-Nach Änderungen pusht Martin mit:
-```bash
-cd ~/Documents/Trading && ./scripts/update.sh YYYY-MM-DD martin "beschreibung"
-```
-
-## Repo
-Private: https://github.com/martin-sambauer/Trading
-
-## Who is Martin
-- Daytrader, paper trading on TradingView (account: arthurdigbysellers2 USD)
-- Building his own trading method — see method/METHOD.md
-- Language: German
-- Brokers: TradeNation (USTEC), Forex.com (US30/GER40), WH SelfInvest (JAPAN225)
+Direct access to /Users/martinsambauer/Documents/Trading/
+Push command: cd ~/Documents/Trading && ./scripts/update.sh YYYY-MM-DD martin "description"
 
 ## Account Status
 - Start: $10,000 (2026-05-28)
 - After Day 1 (2026-05-28): $17,348.87 (+73.5%)
-- After Japan Session (2026-05-28 20:51 – 2026-05-29 01:12 UTC): $21,276.93 (+$3,928 net)
-- Total: +$11,277 (+112.8%) in 2 Tagen
+- After Japan Session (2026-05-28/29): $21,276.93 (+112.8%)
+- After Day 3 (2026-05-29): $27,797 (+178%)
+- Total: +$17,797 in 3 Handelstagen
 
-## Report System (3 separate HTML files, shared nav)
-```bash
-open -a Firefox ~/Documents/Trading/reports/master_report.html   # Übersicht + aktuelle Session
-open -a Firefox ~/Documents/Trading/reports/sessions.html        # Alle Sessions
-open -a Firefox ~/Documents/Trading/reports/observations.html    # Observations
-```
-Generate all three:
-```bash
-cd ~/Documents/Trading && python3 scripts/generate_reports.py
-```
-
-## Data Structure
-- `data/master/master_trades.csv` — ALLE Trades, append-only (⚠ Duplikate vorhanden)
-- `data/master/master_stats.csv` — eine Zeile pro Session (⚠ Zeile 3 fehlerhaft)
-- `data/traders/martin/exports/YYYY-MM-DD/` — rohe TradingView CSVs
-- `data/market/YYYY-MM-DD_SYMBOL.csv` — 5M Kerzen (via fetch_market_data.py)
-
-## Sessions (vollständig dokumentiert)
+## Sessions
 ### Day 1 — 2026-05-28
-- 33 trades, +$7,349 net, Win Rate 78.8%
-- Anchor Trade: USTEC Long 11:13 +$2,911
-- Behaviour cost: -$1,302 (FOMO Top Scale + Context Switch Exit)
-- Reports: reports/master_report.html ✅, reports/sessions.html ✅
+- 33 Trades, +$7,349, Win Rate 78.8%
+- Anchor: USTEC Long 11:13 +$2,911
+- Behaviour: Pattern #1 FOMO Top Scale -$966, Pattern #2 Context Switch -$336
 
-### Japan Session — 2026-05-28 20:51 – 2026-05-29 01:12 UTC
-- 68 Order-Fills, +$3,880 net, Win Rate 78.6%
-- Biggest win: +$1,240 (Long 2500 @ 65935 → 66014)
-- Losses: SL hit 23:38 -$395, Kickstarten SL hit 00:20 -$802 (technique correct, slippage unfavorable)
-- Key event: Barbwire Reversal at market open, Concentration Loss (Pattern #3)
-- Reports: reports/master_report.html ✅, reports/sessions.html ✅
+### Japan Session — 2026-05-28/29
+- 68 Fills, +$3,880, Win Rate 78.6%
+- Bester Trade: Limit TP @ 66,014 +$1,240
+- Kickstarten SL -$801 (Technik korrekt, Slippage ungünstig)
+- Pattern #3 Concentration Loss (Claude-Konversation)
 
-## Method Files Status
-- TERMINOLOGY.md v1.3 ✅ (includes Kickstarten)
-- HYPOTHESES.md v1.1 ✅ (H1–H5, H4 confirmed)
-- SITUATIONS.md v1.0 ✅ (Barbwire Reversal)
-- OBSERVATIONS.md v1.0 ✅ (OBS-001, OBS-002)
+### Day 3 — 2026-05-29
+- ~48 Fills, +$6,568, Win Rate 71.4%
+- Anchor: US30 Long 40 Units 10:37–11:53 UTC +$4,394
+- Taktisches LP am Support 50,860–50,875 (OBS-003) korrekt
+- Pattern #4 TDS NEU: Short nach TP in 11h-UTC-Zone ~-$3,000 Schaden
+- Pattern #3 Concentration Loss: Claude-Konversation während Session
 
-## Known Data Issues (fix before next parse)
-- master_trades.csv: Duplikate in der zweiten Hälfte (parse_trades.py doppelter Run)
-- master_stats.csv: Zeile 3 (2026-05-29 japan) ist fehlerhaft — löschen
-- Screenshots: SITUATIONS.md referenziert 1b04d und 6982c die nicht in screenshots/ liegen
+## New Pattern documented
+Pattern #4 — TDS (Target Derangement Syndrome):
+Nach grossem TP impulsiv in Gegenrichtung handeln obwohl Methoden-Regel dagegen spricht.
+Day 3: Short nach US30-Exit 11:53 UTC — gegen H3 (11h-Zone = Long-Bias).
+Regel: Nach TP in 11h-UTC-Zone kein Short bis 13:30 UTC oder SMA20 dreht.
 
-## Upcoming (KPI Framework v2.0 — noch nicht implementiert)
-- T2BE (Time-to-Break-Even)
-- HSR (Hold-to-Scalp Ratio) / ITPE (Initial TP Efficiency)
-- Profit vs Loss Pyramiding Tracking
-- Risiko-Stressbarometer
-- Key-Level Validation Strategy in OBSERVATIONS.md
-- Zentrales CSS (reports/assets/style_v1.0.css)
-- 5 Dashboard-Tabs: Frontpage, Sessions, Best/Worst, Observations, Terminology
+## Report System (3 HTML files, shared nav)
+open -a Firefox ~/Documents/Trading/reports/master_report.html  # Uebersicht + Day 3
+open -a Firefox ~/Documents/Trading/reports/sessions.html       # Alle Sessions
+open -a Firefox ~/Documents/Trading/reports/observations.html   # OBS + Terminology
 
-## Open Items
-- [ ] master_trades.csv Duplikate bereinigen
-- [ ] master_stats.csv Zeile 3 fixen
-- [ ] KPI Framework v2.0 Parser implementieren
-- [ ] Dashboard v2.0 mit zentralem CSS bauen
-- [ ] Katya GitHub account (waiting)
-- [ ] Data migration: data/trades/ → data/traders/martin/trades/
-- [ ] Key-Level Validation Strategy in OBSERVATIONS.md dokumentieren
+## Hypotheses Updated
+- H3 (11h UTC Peak Performance): BESTAETIGT nach Day 3 (+$4,394 in 11–13h = 67% des Session-P&L)
+- H4 (Hold > Scalp): WEITERHIN BESTAETIGT — Day 3 Anchor 26 Min = +$4,394
+
+## Known Issues
+- master_trades.csv: Duplikate aus altem Parse — vor nächstem Parse bereinigen
+- {data Ordner im Root: manuell löschen via rm -rf ~/Documents/Trading/\{data
+- Screenshots für Day 3 noch nicht in screenshots/ (kommen via update.sh aus Google Drive)
+- generate_reports.py v2.3 noch aktiv (JSON-Architektur noch nicht implementiert)
