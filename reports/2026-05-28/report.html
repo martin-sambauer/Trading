@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Report — 28. Mai 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg:#0f1117;--bg2:#161b27;--bg3:#1e2538;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --text:#e8eaf0;--muted:#8891a8;
+  --green:#26d07c;--red:#f04c5a;--amber:#f5a623;--blue:#4a9eff;--purple:#9b8fff;--teal:#3dd9c0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;font-size:14px;line-height:1.6;}
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;padding:0 24px;}
+nav a{padding:14px 16px;color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;}
+nav a:hover,nav a.active{color:var(--text);border-bottom-color:var(--blue);}
+.page{display:none;padding:28px 24px;max-width:1100px;margin:0 auto;}
+.page.active{display:block;}
+h1{font-size:24px;font-weight:600;margin-bottom:4px;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:28px;}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(74,158,255,0.15);color:var(--blue);margin-left:8px;vertical-align:middle;}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:24px;}
+.metric{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.metric .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
+.metric .val{font-size:21px;font-weight:700;}
+.metric .sub2{font-size:11px;color:var(--muted);margin-top:3px;}
+.green{color:var(--green);}.red{color:var(--red);}.amber{color:var(--amber);}.blue{color:var(--blue);}.purple{color:var(--purple);}
+.sec{margin-bottom:28px;}
+.sec-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px;}
+.card h3{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:14px;}
+.chart-h200{position:relative;height:200px;}
+.chart-h160{position:relative;height:160px;}
+.chart-h140{position:relative;height:140px;}
+
+/* Screenshot section */
+.screenshot-block{margin-bottom:24px;}
+.screenshot-block h4{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text);}
+.screenshot-block .context{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.7;}
+.screenshot-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;}
+.screenshot-wrap img{width:100%;display:block;}
+.screenshot-placeholder{background:var(--bg3);border:1px dashed var(--border2);border-radius:10px;padding:32px;text-align:center;color:var(--muted);font-size:12px;margin-bottom:8px;}
+.analysis-box{background:var(--bg2);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.8;}
+.analysis-box strong{color:var(--text);}
+
+/* Phase cards */
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:20px;}
+.phase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.phase-card.best{border-color:rgba(38,208,124,0.35);}
+.phase-card.bad{border-color:rgba(240,76,90,0.25);}
+.phase-time{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.phase-name{font-size:13px;font-weight:600;margin-bottom:8px;}
+.phase-pnl{font-size:19px;font-weight:700;margin-bottom:3px;}
+.phase-stats{font-size:11px;color:var(--muted);}
+
+/* Trade table */
+table{width:100%;border-collapse:collapse;}
+th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);}
+td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;}
+.pw{background:rgba(38,208,124,0.15);color:var(--green);}
+.pl{background:rgba(240,76,90,0.15);color:var(--red);}
+.pb{background:rgba(136,145,168,0.15);color:var(--muted);}
+.pp{background:rgba(245,166,35,0.15);color:var(--amber);}
+.pa{background:rgba(155,143,255,0.2);color:var(--purple);}
+
+/* Behaviour */
+.beh-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.beh-card{background:var(--bg2);border:1px solid rgba(240,76,90,0.25);border-radius:12px;padding:16px;}
+.beh-card h4{font-size:13px;font-weight:600;color:var(--red);margin-bottom:8px;}
+.beh-cost{font-size:19px;font-weight:700;color:var(--red);margin:6px 0;}
+.beh-card p{font-size:12px;color:var(--muted);line-height:1.75;}
+.learn{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:var(--amber);}
+
+/* Method check */
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:13px;}
+.mc.ok{border-color:rgba(38,208,124,0.3);}
+.mc.warn{border-color:rgba(245,166,35,0.3);}
+.mc .sig{font-size:12px;font-weight:600;margin-bottom:3px;}
+.mc.ok .sig{color:var(--green);}
+.mc.warn .sig{color:var(--amber);}
+.mc .desc{font-size:12px;color:var(--muted);}
+
+/* Hyp */
+.hyp{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+.hyp h4{font-size:13px;font-weight:600;margin-bottom:5px;}
+.hyp p{font-size:12px;color:var(--muted);}
+.st{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-bottom:7px;}
+.st-ev{background:rgba(38,208,124,0.15);color:var(--green);}
+.st-op{background:rgba(74,158,255,0.15);color:var(--blue);}
+.st-new{background:rgba(155,143,255,0.15);color:var(--purple);}
+</style>
+</head>
+<body>
+<nav>
+  <a class="active" onclick="show('dashboard',this)">Dashboard</a>
+  <a onclick="show('sessions',this)">Sessions</a>
+  <a onclick="show('trades',this)">Trades</a>
+  <a onclick="show('behaviour',this)">Behaviour</a>
+  <a onclick="show('methode',this)">Methode</a>
+</nav>
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <h1>Trading Report <span class="badge">Paper</span></h1>
+  <div class="sub">Donnerstag, 28. Mai 2026 · arthurdigbysellers2 USD · Report v1.0</div>
+
+  <div class="metrics">
+    <div class="metric"><div class="lbl">Netto P&L</div><div class="val green">+$7,560</div><div class="sub2">+75.6% auf Startkapital</div></div>
+    <div class="metric"><div class="lbl">Win Rate</div><div class="val">78.8%</div><div class="sub2">26W · 5L · 2BE</div></div>
+    <div class="metric"><div class="lbl">Trades</div><div class="val">33</div><div class="sub2">4 Phasen · 4 Symbole</div></div>
+    <div class="metric"><div class="lbl">Endkapital</div><div class="val blue">$17,560</div><div class="sub2">Start: $10,000</div></div>
+    <div class="metric"><div class="lbl">Anchor Trade</div><div class="val purple">+$2,911</div><div class="sub2">USTEC Long 11:13</div></div>
+    <div class="metric"><div class="lbl">Behaviour Cost</div><div class="val red">−$1,302</div><div class="sub2">FOMO + Context Switch</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Kontoverlauf</div>
+    <div class="card"><div class="chart-h200"><canvas id="balChart" role="img" aria-label="Kontoverlauf">Konto wuchs von $10.000 auf $17.560</canvas></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Phasen des Tages</div>
+    <div class="phases">
+      <div class="phase-card"><div class="phase-time">07:23–08:08</div><div class="phase-name">GER40 Morning</div><div class="phase-pnl green">+$838</div><div class="phase-stats">6 Trades · 4/6 Wins · Short-Bias</div></div>
+      <div class="phase-card best"><div class="phase-time">11:08–13:27</div><div class="phase-name">USTEC Long AM ⭐</div><div class="phase-pnl green">+$6,857</div><div class="phase-stats">19 Trades · 16/19 Wins · Trend + Aircushion</div></div>
+      <div class="phase-card bad"><div class="phase-time">13:47–13:58</div><div class="phase-name">USTEC Late</div><div class="phase-pnl red">−$282</div><div class="phase-stats">2 Trades · 1/2 Wins · Context Switch Exit</div></div>
+      <div class="phase-card"><div class="phase-time">16:42–17:03</div><div class="phase-name">US30 / SPX PM</div><div class="phase-pnl green">+$692</div><div class="phase-stats">6 Trades · 5/6 Wins · Solid</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">P&L nach Symbol</div>
+    <div class="card"><div class="chart-h160"><canvas id="symChart" role="img" aria-label="P&L nach Symbol">P&L nach Symbol</canvas></div></div>
+  </div>
+</div>
+
+<!-- SESSIONS -->
+<div class="page" id="page-sessions">
+  <h1>Session-Analyse</h1>
+  <div class="sub">Jede Phase mit Chart und Methoden-Kontext</div>
+
+  <div class="screenshot-block">
+    <h4>USTEC — Hauptsession 11:08–13:58</h4>
+    <div class="context">Dual-Timeframe Setup: 1D links (Daily Bias), 5M rechts (Einstieg). Blaue Pfeile = Long Entries, rote Pfeile = Short Entries/Exits. Die dichte Cluster zwischen 11:00–13:00 zeigt die aktive Pyramidierungsphase.</div>
+    <div class="screenshot-wrap">
+      <img src="../../screenshots/USTEC_2026-05-28_20-16-56_68476.png" alt="USTEC 28. Mai 2026 mit Execution Marks" onerror="this.parentElement.innerHTML='<div style=\'padding:24px;text-align:center;color:#8891a8;font-size:12px;\'>Screenshot wird nach dem nächsten git push sichtbar</div>'">
+    </div>
+    <div class="analysis-box">
+      <strong>Methoden-Analyse:</strong> Der Chart zeigt perfekte Confluence um 10:00–10:10 Uhr: SMA200 Breakout → SMA Crossing → Battle Zone Break. Der <strong>Aircushion</strong> zwischen Preis und SMA20 (blaue Linie) ist ab 11:00 Uhr klar sichtbar und stabil — klassische Trend-Phase. Dein Anchor Trade um 11:13 (+$2.911) war der optimale Einstieg: Preis hatte gerade die Battle Zone verlassen und der Aircushion war noch jung.<br><br>
+      <strong>Auffällig:</strong> Nach 13:00 Uhr komprimieren sich die Kerzen, das Momentum lässt nach. Der Aircushion beginnt zu kollabieren — das wäre ein frühes Exit-Signal gewesen (H2).
+    </div>
+  </div>
+
+  <div class="screenshot-block">
+    <h4>GER40 — Morning Session 07:23–08:08</h4>
+    <div class="context">GER40 Short-Session zur Markteröffnung. SMA20 mit leichter Abwärtsneigung, Battle Zone Breakout nach unten.</div>
+    <div class="screenshot-wrap">
+      <img src="../../screenshots/GER40_2026-05-28_20-18-29_f7a92.png" alt="GER40 28. Mai 2026" onerror="this.parentElement.innerHTML='<div style=\'padding:24px;text-align:center;color:#8891a8;font-size:12px;\'>Screenshot wird nach dem nächsten git push sichtbar</div>'">
+    </div>
+    <div class="analysis-box">
+      <strong>Methoden-Analyse:</strong> GER40 zeigte heute Morgen eine klare Abwärtsstruktur. Der erste Trade (+$712.86 mit 30 Einheiten) war dein bester GER40-Trade — Einstieg nahe dem SMA20 mit bestätigter Neigung nach unten. Die zwei Verluste (08:00 und 08:08) entstanden durch Gegenbewegungen an kurzfristigen Widerstandsniveaus — klassische Range-Momente innerhalb einer Trend-Phase.
+    </div>
+  </div>
+
+  <div class="screenshot-block">
+    <h4>US30 — Nachmittag 16:42–17:03</h4>
+    <div class="screenshot-placeholder">US30 Screenshot ohne Execution Marks — Paper Trading war nicht verbunden. Für morgen: vor dem ersten Trade sicherstellen dass Forex.com im Paper Trading Panel aktiv ist.</div>
+    <div class="analysis-box">
+      <strong>Methoden-Analyse:</strong> Solide Nachmittags-Session. 5 von 6 Trades gewonnen. Die Pyramidierung (10er-Blöcke auf bis zu 30 Einheiten) funktionierte gut. Der SPX Break-Even Trade (16:45) zeigt diszipliniertes Risikomanagement.
+    </div>
+  </div>
+
+  <div class="sec" style="margin-top:24px;">
+    <div class="sec-title">P&L Verlauf nach Phase</div>
+    <div class="card"><div class="chart-h160"><canvas id="phaseChart" role="img" aria-label="P&L nach Phase">Phase P&L</canvas></div></div>
+  </div>
+</div>
+
+<!-- TRADES -->
+<div class="page" id="page-trades">
+  <h1>Alle Trades</h1>
+  <div class="sub">33 Trades · 28. Mai 2026 · Paper Account</div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead><tr><th>Zeit</th><th>Symbol</th><th>Richtung</th><th>Units</th><th>Entry</th><th>Exit</th><th>P&L</th><th>Ergebnis</th><th>Pattern</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- BEHAVIOUR -->
+<div class="page" id="page-behaviour">
+  <h1>Behaviour-Analyse</h1>
+  <div class="sub">Verhaltsmuster, Kosten und Lernpunkte</div>
+
+  <div class="sec">
+    <div class="sec-title">Patterns heute</div>
+    <div class="beh-grid">
+      <div class="beh-card">
+        <h4>FOMO Top Scale</h4>
+        <div class="beh-cost">−$966</div>
+        <p>12:15 · USTEC Long · 40 Einheiten<br><br>
+        Zu spätes Einsteigen in eine bereits weit gelaufene Bewegung, sofort auf Maximum skaliert. Kein Puffer bei Gegenbewegung. Mentaler Stop Loss ausgelöst obwohl der Trade sich 3 Minuten später erholt hätte.
+        <span class="learn">→ Erst skalieren wenn Aircushion bestätigt</span></p>
+      </div>
+      <div class="beh-card">
+        <h4>Context Switch Exit</h4>
+        <div class="beh-cost">−$336</div>
+        <p>13:58 · USTEC Short · 20 Einheiten<br><br>
+        Externer Termin (Dinner) erzwang Entscheidung unter Druck. Short gegen den bestehenden Trend. Bewegung kam zu langsam für den Zeitdruck — Account Fuse wurde ausgelöst.
+        <span class="learn">→ Keine neuen Trades wenn Termin &lt;30 Min</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Trading-Stil Analyse</div>
+    <div class="card">
+      <h3>Haltezeit vs. P&L Effizienz</h3>
+      <div class="chart-h160"><canvas id="styleChart" role="img" aria-label="Stil Analyse">Stil Analyse</canvas></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.8;">
+        <strong style="color:var(--text)">Erkenntnis (H4):</strong> Hold-Trades (&gt;15 Min) generierten heute Ø +$612/Trade. Quick-Trades (2–15 Min) Ø +$156. Scalps (&lt;2 Min) Ø +$12. In Trend-Phasen mit stabilem <strong style="color:var(--text)">Aircushion</strong> lohnt es sich länger zu halten.
+      </p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Mentaler Stop Loss vs. Account Fuse</div>
+    <div class="card">
+      <p style="font-size:12px;color:var(--muted);line-height:1.8;">
+        <strong style="color:var(--text)">Heute beobachtet:</strong> Der <strong style="color:var(--text)">mentale Stop Loss</strong> wurde um 12:15 ausgelöst (FOMO Top Scale −$966) — subjektives Gefühl dass der Trade falsch läuft, obwohl das Setup noch intakt war. Die <strong style="color:var(--text)">Account Fuse</strong> (harte Tagesgrenze) wurde heute nicht ausgelöst — das Konto wuchs konstant.<br><br>
+        <strong style="color:var(--text)">Spike Catcher:</strong> Mehrere Limit-Orders zwischen 30.270–30.300 lagen weit vom aktuellen Preis — bewusst platziert um mögliche Spike-Bewegungen mitzunehmen, nicht als realistische Ziele. Markt erreichte max. 30.251. Kein TDS heute.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- METHODE -->
+<div class="page" id="page-methode">
+  <h1>Methoden-Check</h1>
+  <div class="sub">Confluence-Analyse und Hypothesen-Update</div>
+
+  <div class="sec">
+    <div class="sec-title">Confluence-Check — Anchor Trade 11:13</div>
+    <div class="method-grid">
+      <div class="mc ok"><div class="sig">✓ Daily Bias bullish</div><div class="desc">Tageskerze zeigte klare Aufwärtsrichtung</div></div>
+      <div class="mc ok"><div class="sig">✓ SMA200 Breakout 10:00</div><div class="desc">Preis durchbrach SMA200 nach oben</div></div>
+      <div class="mc ok"><div class="sig">✓ SMA Crossing 10:05</div><div class="desc">SMA20 kreuzte SMA200 — starkes Signal</div></div>
+      <div class="mc ok"><div class="sig">✓ Battle Zone Break 10:10</div><div class="desc">Ranging-Zone verlassen, keine Rückkehr</div></div>
+      <div class="mc ok"><div class="sig">✓ Stabiler Aircushion</div><div class="desc">Konstanter Abstand Preis/SMA20 ganzen Vormittag</div></div>
+      <div class="mc ok"><div class="sig">✓ SMA20 Neigung stark</div><div class="desc">Deutliche Steigung — Trend-Phase bestätigt</div></div>
+      <div class="mc warn"><div class="sig">⚠ Pyramidierung zu früh</div><div class="desc">FOMO Top Scale 12:15: skaliert vor Bestätigung</div></div>
+      <div class="mc warn"><div class="sig">⚠ Short gegen Trend 13:58</div><div class="desc">Context Switch Exit — externer Druck</div></div>
+    </div>
+  </div>
+
+  <div class="sec" style="margin-top:24px;">
+    <div class="sec-title">Hypothesen-Update</div>
+    <div class="hyp"><div class="st st-ev">Erste Evidenz</div><h4>H1 — SMA200 Breakout → Trend-Dauer</h4><p>Breakout 10:00 → Trend hielt bis ~13:30 = <strong style="color:var(--green)">3,5 Stunden</strong>. Erster Datenpunkt. Brauchen 30+ Events.</p></div>
+    <div class="hyp"><div class="st st-op">Offen</div><h4>H2 — Aircushion-Kollaps als Exit-Signal</h4><p>Aircushion blieb bis ca. 13:00 intakt, kollabierte dann. Wäre ein gutes Exit-Signal gewesen. Noch nicht systematisch getestet.</p></div>
+    <div class="hyp"><div class="st st-ev">Erste Evidenz</div><h4>H3 — Beste Performance 11–13h</h4><p>$6,857 von $7,560 Gesamt (90.7%) kamen aus USTEC AM Phase. Starke Bestätigung.</p></div>
+    <div class="hyp"><div class="st st-new">Neu</div><h4>H4 — Hold &gt; Scalp in Trend-Phasen</h4><p>Heute: Hold Ø +$612 vs. Quick Ø +$156 vs. Scalp Ø +$12. In Trend-Phasen mit Aircushion länger halten.</p></div>
+  </div>
+</div>
+
+<script>
+function show(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+const trades=[
+  {t:'07:36',s:'GER40',d:'Short',u:30,en:25094.1,ex:25073.8,p:712.86,r:'WIN',pat:''},
+  {t:'07:46',s:'GER40',d:'Short',u:10,en:25068.1,ex:25064.8,p:38.63,r:'WIN',pat:''},
+  {t:'07:52',s:'GER40',d:'Short',u:10,en:25054.1,ex:25048.3,p:67.89,r:'WIN',pat:''},
+  {t:'08:00',s:'GER40',d:'Short',u:30,en:25050.4,ex:25052.3,p:-65.55,r:'LOSS',pat:''},
+  {t:'08:04',s:'GER40',d:'Short',u:30,en:25045.4,ex:25042.8,p:92.47,r:'WIN',pat:''},
+  {t:'08:08',s:'GER40',d:'Short',u:10,en:25038.1,ex:25038.8,p:-8.19,r:'LOSS',pat:''},
+  {t:'11:08',s:'USTEC',d:'Long',u:10,en:29950.7,ex:29957.3,p:66,r:'WIN',pat:''},
+  {t:'11:09',s:'USTEC',d:'Long',u:10,en:29950.4,ex:29966.8,p:164,r:'WIN',pat:''},
+  {t:'11:13',s:'USTEC',d:'Long',u:30,en:29958.2,ex:30055.2,p:2911,r:'WIN',pat:'ANCHOR'},
+  {t:'11:17',s:'USTEC',d:'Long',u:40,en:30081.1,ex:30086.3,p:207,r:'WIN',pat:''},
+  {t:'11:18',s:'USTEC',d:'Long',u:20,en:30071.9,ex:30089.7,p:356,r:'WIN',pat:''},
+  {t:'11:21',s:'USTEC',d:'Short',u:10,en:30075.6,ex:30052.1,p:235,r:'WIN',pat:''},
+  {t:'11:26',s:'USTEC',d:'Long',u:10,en:30023.6,ex:30044.9,p:213,r:'WIN',pat:''},
+  {t:'11:34',s:'USTEC',d:'Short',u:20,en:30066.2,ex:30061,p:103,r:'WIN',pat:''},
+  {t:'11:36',s:'USTEC',d:'Short',u:10,en:30056.4,ex:30050.5,p:59,r:'WIN',pat:''},
+  {t:'11:38',s:'USTEC',d:'Short',u:10,en:30072.8,ex:30058.6,p:142,r:'WIN',pat:''},
+  {t:'11:42',s:'USTEC',d:'Short',u:30,en:30066.9,ex:30063.2,p:110,r:'WIN',pat:''},
+  {t:'11:48',s:'USTEC',d:'Short',u:10,en:30081.4,ex:30078,p:34,r:'WIN',pat:''},
+  {t:'11:50',s:'USTEC',d:'Short',u:10,en:30081.9,ex:30080,p:19,r:'WIN',pat:''},
+  {t:'11:59',s:'USTEC',d:'Short',u:10,en:30079.9,ex:30119.8,p:-399,r:'LOSS',pat:''},
+  {t:'12:06',s:'USTEC',d:'Long',u:30,en:30148.9,ex:30153.9,p:149,r:'WIN',pat:''},
+  {t:'12:15',s:'USTEC',d:'Long',u:40,en:30165.3,ex:30141.1,p:-966,r:'LOSS',pat:'FOMO'},
+  {t:'12:28',s:'USTEC',d:'Long',u:40,en:30167.3,ex:30200.8,p:1341,r:'WIN',pat:''},
+  {t:'12:39',s:'USTEC',d:'Long',u:30,en:30197.8,ex:30217.3,p:585,r:'WIN',pat:''},
+  {t:'13:27',s:'USTEC',d:'Long',u:30,en:30206.5,ex:30240.2,p:1012,r:'WIN',pat:''},
+  {t:'13:47',s:'USTEC',d:'Long',u:10,en:30239.4,ex:30244.8,p:54,r:'WIN',pat:''},
+  {t:'13:58',s:'USTEC',d:'Short',u:20,en:30234.9,ex:30251.7,p:-336,r:'LOSS',pat:'CTX'},
+  {t:'16:43',s:'SPX',d:'Short',u:35,en:7565.2,ex:7564.85,p:12.11,r:'WIN',pat:''},
+  {t:'16:45',s:'SPX',d:'Short',u:35,en:7564.43,ex:7564.43,p:0,r:'BE',pat:''},
+  {t:'16:51',s:'US30',d:'Long',u:30,en:50661.2,ex:50669.5,p:248,r:'WIN',pat:''},
+  {t:'16:54',s:'US30',d:'Short',u:20,en:50678.8,ex:50677.9,p:17,r:'WIN',pat:''},
+  {t:'17:02',s:'US30',d:'Long',u:30,en:50691.9,ex:50704.5,p:378,r:'WIN',pat:''},
+  {t:'17:03',s:'US30',d:'Long',u:20,en:50705.7,ex:50707.5,p:37,r:'WIN',pat:''},
+];
+
+const tb=document.getElementById('tb');
+trades.forEach(t=>{
+  const rp=t.r==='WIN'?'<span class="pill pw">WIN</span>':t.r==='LOSS'?'<span class="pill pl">LOSS</span>':'<span class="pill pb">BE</span>';
+  const pp=t.pat==='FOMO'?'<span class="pill pp">FOMO Top Scale</span>':t.pat==='CTX'?'<span class="pill pp">Context Switch</span>':t.pat==='ANCHOR'?'<span class="pill pa">Anchor</span>':'—';
+  const pc=t.p>0?'#26d07c':t.p<0?'#f04c5a':'#8891a8';
+  tb.innerHTML+=`<tr><td>${t.t}</td><td><b>${t.s}</b></td><td>${t.d}</td><td>${t.u}</td><td>${t.en.toLocaleString('de-DE',{minimumFractionDigits:1})}</td><td>${t.ex.toLocaleString('de-DE',{minimumFractionDigits:1})}</td><td style="color:${pc};font-weight:600">${t.p>=0?'+':''}$${t.p.toFixed(2)}</td><td>${rp}</td><td>${pp}</td></tr>`;
+});
+
+let bal=10000;
+const balD=[10000];
+const balL=['Start'];
+trades.forEach(t=>{bal+=t.p;balD.push(Math.round(bal));balL.push(t.t);});
+
+new Chart(document.getElementById('balChart'),{
+  type:'line',data:{labels:balL,datasets:[{data:balD,borderColor:'#26d07c',backgroundColor:'rgba(38,208,124,0.06)',fill:true,tension:0.3,pointRadius:2,pointBackgroundColor:'#26d07c'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#8891a8',callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8891a8',autoSkip:true,maxTicksLimit:8,font:{size:10}},grid:{display:false}}}}
+});
+
+new Chart(document.getElementById('symChart'),{
+  type:'bar',data:{labels:['GER40','USTEC','SPX','US30'],datasets:[{data:[838,6857,12,680],backgroundColor:['#4a9eff','#26d07c','#9b8fff','#3dd9c0']}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#8891a8',callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8891a8'},grid:{display:false}}}}
+});
+
+new Chart(document.getElementById('phaseChart'),{
+  type:'bar',data:{labels:['GER40\n07–08h','USTEC AM\n11–13h','USTEC Late\n13–14h','US30/SPX\n16–17h'],datasets:[{data:[838,6857,-282,692],backgroundColor:[838,6857,-282,692].map(v=>v>=0?'#26d07c':'#f04c5a')}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#8891a8',callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8891a8',font:{size:11}},grid:{display:false}}}}
+});
+
+new Chart(document.getElementById('styleChart'),{
+  type:'bar',data:{labels:['Scalp <2min\n(6 Trades)','Quick 2-15min\n(18 Trades)','Hold >15min\n(9 Trades)'],datasets:[{data:[12,156,612],backgroundColor:['#3dd9c0','#4a9eff','#9b8fff'],label:'Ø P&L pro Trade'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#8891a8',callback:v=>'$'+v},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#8891a8',font:{size:11}},grid:{display:false}}}}
+});
+</script>
+</body>
+</html>
