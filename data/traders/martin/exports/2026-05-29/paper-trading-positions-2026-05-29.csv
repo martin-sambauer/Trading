@@ -1,0 +1,2 @@
+Symbol,Side,Quantity,Avg fill price,Take profit,Stop loss,Last price,Unrealized PnL (value),Unrealized PnL (currency),Unrealized PnL %,Trade value,Market value,Leverage,Margin,Expiration date
+WHSELFINVEST:JAPAN225CFD,Short,1500,65891.666666667,65788,,65994,-961.523999996868,USD,−0.16%,"619,118.10 USD","618,156.58 USD",100:1,"6,181.57 USD",
