@@ -1,4 +1,4 @@
-<!-- Version: 1.2 | Letzte Änderung: 2026-05-29 -->
+<!-- Version: 1.3 | Letzte Änderung: 2026-05-29 -->
 # Terminology
 *Combination of standard trading terminology and proprietary terms.
 All terms are in English for universal AI readability. Continuously updated.*
@@ -26,6 +26,12 @@ See `method/SITUATIONS.md` for full documentation.
 Specific situation where Barbwire occurs in a context suggesting an upcoming strong move — typically against the prior trend.
 Signal constellation: horizontal SMA20 + fast SMA crossing + Barbwire candles + compressed Bollinger Bands.
 First documented: JAPAN225, 2026-05-29.
+
+### Kickstarten
+Deliberate risk management technique: after entering a counter-trend trade (trading against the prior direction, e.g. shorting at a breakout point in an uptrend), the stop loss is moved to just above break-even as soon as the trade shows a small profit.
+**Purpose:** If the market reverses and proves the counter-trend trade wrong, the position exits automatically with minimal loss rather than a large one. Better to be stopped out small than to hold through a full reversal.
+**Known risk:** In fast-moving markets, slippage can cause the fill price to be significantly worse than the stop price — turning a break-even exit into a small loss.
+**Example:** 2026-05-29 Japan session 00:20 UTC — Short position kickstarted, stop triggered, ~120 points slippage caused -$801 instead of ~$0. Technique correctly applied, execution unfavorable due to market speed.
 
 ### Target Derangement Syndrome (TDS)
 Psychological error that occurs when price is already 60–80% toward a target but momentum has already reversed.

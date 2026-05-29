@@ -1,7 +1,6 @@
 #!/bin/bash
-# Trading Journal Update Script v2.0
+# Trading Journal Update Script v2.1
 # Verwendung: cd ~/Documents/Trading && ./scripts/update.sh [YYYY-MM-DD] [trader] [kommentar]
-# Defaults: heutiges Datum, martin, "Daily update DATUM"
 
 set -e
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -11,11 +10,13 @@ DATE=${1:-$(date +%Y-%m-%d)}
 TRADER=${2:-martin}
 COMMENT=${3:-"Daily update $DATE"}
 
-GDRIVE_SCREENSHOTS="$HOME/Google Drive/My Drive/Trading_Journal/Screenshots"
+# Google Drive — korrekter Pfad
+GDRIVE_BASE="$HOME/Library/CloudStorage/GoogleDrive-arthurdigbysellers2@googlemail.com/My Drive"
+GDRIVE_SCREENSHOTS="$GDRIVE_BASE/Trading_Journal/Screenshots"
 REPO_SCREENSHOTS="$REPO_DIR/screenshots"
 
 echo "================================================"
-echo "Trading Journal Update"
+echo "Trading Journal Update v2.1"
 echo "Datum:  $DATE"
 echo "Trader: $TRADER"
 echo "================================================"
@@ -42,6 +43,7 @@ if [ -d "$GDRIVE_SCREENSHOTS" ]; then
         CONVERT_CMD=""
     fi
 
+    COUNT=0
     for f in "$GDRIVE_SCREENSHOTS"/*.png "$GDRIVE_SCREENSHOTS"/*.jpg; do
         [ -f "$f" ] || continue
         filename=$(basename "$f")
@@ -49,21 +51,27 @@ if [ -d "$GDRIVE_SCREENSHOTS" ]; then
         if [ ! -f "$target" ]; then
             if [ -n "$CONVERT_CMD" ]; then
                 $CONVERT_CMD "$f" -resize 1400x -quality 75 "$target"
-                echo "  Komprimiert: $filename"
             else
                 cp "$f" "$target"
-                echo "  Kopiert (imagemagick fehlt): $filename"
             fi
+            echo "  → $filename"
+            COUNT=$((COUNT + 1))
         fi
     done
-    echo "  Screenshots: fertig"
+    if [ $COUNT -eq 0 ]; then
+        echo "  Keine neuen Screenshots"
+    else
+        echo "  $COUNT Screenshots verarbeitet"
+    fi
 else
-    echo "  Google Drive Screenshots Ordner nicht gefunden, übersprungen"
+    echo "  Google Drive nicht gefunden: $GDRIVE_SCREENSHOTS"
 fi
 
-# 4. Git push
+# 4. Master Report neu generieren
 echo ""
-echo "[4/4] Git push..."
+echo "[4/4] Reports + Git push..."
+python3 scripts/generate_reports.py 2>/dev/null && echo "  Reports regeneriert" || echo "  Report-Generator nicht gefunden, übersprungen"
+
 git add -A
 
 if git diff --cached --quiet; then
