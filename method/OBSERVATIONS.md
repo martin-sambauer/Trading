@@ -1,4 +1,4 @@
-<!-- Version: 1.0 | Last updated: 2026-05-29 -->
+<!-- Version: 1.1 | Last updated: 2026-05-29 -->
 # Market Observations
 
 *A growing collection of editorial insights about market character and structure.
@@ -34,7 +34,7 @@ Confidence levels:
 **Confidence:** Anecdotal
 
 ### Core observation
-In certain market phases, price oscillates repeatedly around a flat SMA20 — crossing it, returning, crossing again. The market has made no directional decision. This state can persist for anywhere from 30 minutes to a few hours before resolving into a trend or breaking down entirely.
+In certain market phases, price oscillates repeatedly around a flat SMA20 — crossing it, returning, crossing again. The market has made no directional decision. This state can persist for anywhere from a few minutes to a few hours before resolving into a trend or breaking down entirely.
 
 ### How it shows on the chart
 - SMA20 is flat or nearly flat — no meaningful slope in either direction
@@ -56,7 +56,6 @@ Fade the Bollinger Bands: enter short near the upper band, enter long near the l
 - One side of the Bollinger Band is touched repeatedly without a full reversal to the other side
 - Higher lows (bullish break) or lower highs (bearish break) begin forming
 - A candle closes significantly beyond the Bollinger Band without snapping back
-- Volume or momentum spike in one direction
 
 ### Examples
 *(No isolated example yet — see OBS-002 Phase 1 for the transition context)*
@@ -72,67 +71,96 @@ Fade the Bollinger Bands: enter short near the upper band, enter long near the l
 ### Core observation
 A ranging phase (like OBS-001) can gradually transform into a directed move without losing its alternating character. The market does not switch abruptly from range to trend — it drifts. The key early signal is a sequence of higher lows (in an upward transition) visible before the direction becomes obvious to most traders. The alternating behaviour persists into the trend but shifts into the upper (or lower) Bollinger segment, and corrections no longer reach the opposite band.
 
-This transition is gradual and easy to miss. It is more useful to recognise it in real time than to identify it in hindsight.
-
 ### How it shows on the chart — three phases
 
 **Phase 1 — Pure Range (OBS-001)**
 SMA20 horizontal. Price bounces between both Bollinger Bands. No direction.
 
 **Phase 2 — Transition**
-SMA20 begins to slope gently. Corrections still look like full reversals but fail to reach the opposite band completely. A trendline connecting the lows begins to rise (or fall). The SMA-crossing behaviour continues but price spends more time on one side. This phase lasts roughly 20–60 minutes on the 5M chart.
+SMA20 begins to slope gently. Corrections fail to reach the opposite band completely. A trendline connecting the lows begins to rise. This phase lasts roughly 20–60 minutes on the 5M chart.
 
 **Phase 3 — Trending Channel**
-Price moves primarily in the upper (uptrend) or lower (downtrend) Bollinger segment. Corrections pull back toward SMA20 but not through it — SMA20 acts as support (or resistance). Aircushion is establishing. The alternating character is still present but contained within the trend direction.
+Price moves primarily in the upper (uptrend) or lower (downtrend) Bollinger segment. Corrections pull back toward SMA20 but not through it. Aircushion is establishing.
 
 ### Trading implication
 **Phase 1:** Bollinger Band fades as in OBS-001.
 
-**Phase 2 (transition — the critical recognition moment):**
+**Phase 2 (the critical recognition moment):**
 - Stop fading the bands
-- Reduce or close counter-trend positions
 - Watch for the trendline of higher lows to confirm
-- Wait for price to break out of the range on the trend side before entering
+- Wait for price to break out of the range on the trend side
 - This is the highest-value entry point — early in the trend, before it is obvious
 
 **Phase 3:**
 - Trade with the trend
 - Use corrections to SMA20 as entry opportunities
 - Pyramiding is appropriate — the aircushion supports it
-- Hold positions longer than feels comfortable — the alternating character creates false exit signals
+- Hold longer than feels comfortable — the alternating character creates false exit signals
 
 ### Break signals
-- Price breaks through SMA20 convincingly and does not recover within 2–3 candles
+- Price breaks through SMA20 and does not recover within 2–3 candles
 - SMA20 flattens again after trending
 - The amplitude of counter-moves increases noticeably
-- A candle closes below the most recent higher low (for uptrend)
 
 ### Examples
-
 **Japan Session 2026-05-29 — JAPAN225CFD, 5M**
+Phase 1 (~20:50–22:00 UTC): Barbwire zone at market open, flat SMA20.
+Phase 2 (~22:00–22:30 UTC): SMA-crossing, higher lows forming — optimal entry window, missed.
+Phase 3 (~22:30–01:00 UTC): Trend channel in upper Bollinger segment, counter-trend trades taken instead of following.
+Potential: ~$5,000. Realised: ~$2,267 (Pattern #3 Concentration Loss).
 
-The full session shows all three phases clearly on the chart below.
+![JAPAN225CFD Session Overview](../screenshots/JAPAN225CFD_2026-05-28_19-09-00_cbdae.png)
+![JAPAN225CFD with Execution Marks](../screenshots/JAPAN225CFD_2026-05-29_01-29-07_e79b3.png)
 
-**Phase 1 (Pure Range, ~20:50–22:00 UTC):**
-At the start of the Japan session (market open ~22:00 JST = 13:00 UTC), price oscillated in a tight zone. SMA20 was flat. Both Bollinger Bands were touched alternately. This is the Barbwire zone described in SITUATIONS.md — the alternating character was compressed into long-wick candles, energy building.
+---
 
-**Phase 2 (Transition, ~22:00–22:30 UTC):**
-SMA-crossing occurred. Higher lows became visible — a rising trendline could be drawn connecting the correction lows. Price still made counter-moves but they were shallower each time. This was the optimal entry window for a long position with the emerging trend.
+## OBS-003 — Key-Level Validation Strategy (Tactical Loss Pyramiding)
 
-**Phase 3 (Trending Channel, ~22:30–01:00 UTC):**
-Price moved primarily in the upper Bollinger segment. Corrections returned to SMA20 but not through it. The alternating character persisted — short counter-moves were visible throughout (the red execution arrows in the chart) — but each correction was a buying opportunity, not a reversal signal. The SMA200 on the 5M chart (pink line) rose steadily from ~63,000 to ~65,000, confirming the trend strength.
+**First documented:** 2026-05-29
+**Last confirmed:** 2026-05-29
+**Confidence:** Anecdotal — tactical framework, not yet statistically verified
 
-**What was missed:**
-The transition (Phase 2) was not cleanly recognised at the time. Entry came after the trend was already established, reducing the potential gain significantly. The correction moves in Phase 3 triggered several unnecessary counter-trend trades (Pattern #3 Concentration Loss).
+### Core observation
+Loss Pyramiding (adding to a losing position) is generally destructive — but there is one context where it becomes a deliberate, edge-positive tactic: when a position was entered in the direction of the primary trend, and the market temporarily moves against the position toward a significant key level (support for longs, resistance for shorts). At that level, a second entry is made. This is not emotional averaging — it is a pre-planned tactical entry with a defined stop just beyond the key level.
 
-**Potential vs. realised:**
-Had Phase 2 been recognised and a long position entered at the trendline breakout (~22:00–22:15 UTC), the full 600+ point move would have been capturable in both directions. Realised: ~$2,267. Potential with clean execution: ~$5,000.
+The mathematical advantage: the second entry is made at the best possible price (directly at support), and if the market respects the level, the combined cluster becomes massively profitable with a tight combined stop. If the level breaks, the position is killed immediately with a small additional loss.
 
-![JAPAN225CFD Session Overview — 2026-05-29](../screenshots/JAPAN225CFD_2026-05-28_19-09-00_cbdae.png)
-*JAPAN225CFD 5M — 2026-05-28/29. Right chart: the three phases are visible. The tight alternating zone at the left of the 5M chart (Phase 1), the rising trendline and SMA-crossing in the middle (Phase 2), and the sustained upper-band trending channel in the right portion (Phase 3). The pink SMA200 line confirms the trend context.*
+This tactic must be distinguished from blind loss averaging. The difference is:
+- **Tactical LP:** pre-planned, at a specific level, with a defined stop just beyond it
+- **Blind averaging:** reactive, no defined stop, driven by hope rather than structure
 
-![JAPAN225CFD with Execution Marks — 2026-05-29](../screenshots/JAPAN225CFD_2026-05-29_01-29-07_e79b3.png)
-*JAPAN225CFD 5M with execution marks. The dense cluster of opposing arrows shows the counter-trend trades made during Phase 3 — these were correct in recognising the alternating character but wrong in trading against the dominant direction.*
+### How to identify a valid Key-Level entry point
+- The level is a prior structure high/low, a round number, a daily PDH/PDL, or a Bollinger Band confluence
+- The primary trend is still intact (SMA20 still slopes in the intended direction)
+- The retracement to the level is orderly — not a sharp reversal with increasing momentum
+- The level has been respected at least once before in the current session or on the daily chart
+
+### Execution
+1. Primary entry: above the key level in trend direction
+2. If price retraces to the key level: add second position at or just above the level
+3. Stop for the entire cluster: just below the key level (for longs) — tight, defined, non-negotiable
+4. If the level breaks: exit immediately, do not wait
+5. If the level holds: hold the combined cluster, the average entry is now significantly better
+
+**Extension:** If account PnL and risk management allow, a third level can be used if there is a second significant support below the first. Each level must have its own stop just beyond it.
+
+### The risk — why this tactic is dangerous if misapplied
+- Requires pre-planning before the move happens, not in the heat of a retracement
+- The stop must be placed and honoured before the second entry is made
+- Works only in trend context — not in a ranging market (OBS-001)
+- Increases Loss Pyramiding metrics (Net_PnL_LP, Max_Cluster_DD_LP) — these must be tracked and reviewed
+
+### How it shows in the data
+- Max_Cluster_DD_LP will spike — this is expected and acceptable if the tactic is working
+- Stress_Sentiment_LP may show RED even in a profitable session — review the context
+- Most_Lucrative_LP should over time reflect these tactical entries
+
+### Relationship to other metrics
+- T2BE will be long for tactical LP entries (the position is in drawdown until the level holds) — HIGH T2BE is acceptable in this specific context
+- HSR should be high if the level holds and the full TP is reached
+
+### Examples
+*(No direct example documented yet — Japan session had LP but not at a pre-planned key level. First confirmed tactical LP to be documented when it occurs.)*
 
 ---
 

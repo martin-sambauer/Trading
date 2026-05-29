@@ -1,0 +1,651 @@
+/*
+ * style_v1.0.css — Trading Journal Dashboard · Zentrales Stylesheet
+ * Version: 1.0
+ * Letzte Änderung: 2026-05-29
+ *
+ * Dieses File ist die einzige Quelle der Wahrheit für alle visuellen Regeln.
+ * generate_reports.py liest es ein und bettet es in alle HTML-Reports ein.
+ * Nie inline-Styles in den HTML-Reports verwenden — immer hier ergänzen.
+ *
+ * Versionierung: bei jeder Änderung Versionsnummer im Header erhöhen
+ * und Eintrag im CHANGELOG.md machen.
+ *
+ * Farbpalette:
+ *   --gold   #e8b84b  Primär-Akzent, aktive Nav, KPI-Highlights
+ *   --green  #38c87a  Gewinne, positive Werte, bestätigte Hypothesen
+ *   --red    #e85858  Verluste, negative Werte, Fehler
+ *   --blue   #4f9de0  Sekundär-Akzent, Zeitmarkierungen
+ *   --purple #9b7fe8  Tertiär-Akzent, GER40
+ *
+ * Typografie-Regel (PFLICHT):
+ *   Body-Text, Analysen, Chart-Annotationen: min 15px
+ *   Labels, sekundäre Captions:              min 12px
+ *   Nie unter 12px für lesbaren Inhalt
+ *   Section-Titel: Inter 600 max — kein 700+ für Überschriften
+ *
+ * Barometer-Klassen (T2BE, Stress, Pyramiding):
+ *   .baro-green  <= Schwellenwert grün
+ *   .baro-yellow mittlerer Bereich
+ *   .baro-red    kritischer Bereich
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Inter:wght@400;500;600&display=swap');
+
+/* ─── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Hintergründe */
+  --bg:      #08090d;
+  --s1:      #0d1018;
+  --s2:      #12161f;
+
+  /* Borders */
+  --border:  #1a2030;
+  --border2: #222b3a;
+
+  /* Akzentfarben */
+  --gold:    #e8b84b;
+  --green:   #38c87a;
+  --red:     #e85858;
+  --blue:    #4f9de0;
+  --purple:  #9b7fe8;
+
+  /* Text */
+  --text:    #b8c4da;
+  --muted:   #354057;
+  --muted2:  #5d6f8a;
+
+  /* Fonts */
+  --mono: 'DM Mono', monospace;
+  --sans: 'Inter', sans-serif;
+
+  /* Typografie-Basisgrössen */
+  --fs-body:    15px;
+  --fs-sm:      13px;
+  --fs-label:   11px;
+  --fs-caption: 12px;
+
+  /* Spacing */
+  --pad-page:    48px;
+  --pad-card:    22px 26px;
+  --pad-section: 52px;
+
+  /* Barometer-Schwellen (für Tooltip-Texte — Farben via Klassen) */
+  --baro-t2be-green:  2;   /* Minuten */
+  --baro-t2be-yellow: 10;
+  --baro-stress-green: 1;  /* % des Kontos */
+  --baro-stress-yellow: 3;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box }
+html { scroll-behavior: smooth }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: var(--fs-body);
+  line-height: 1.75;
+}
+
+/* ─── Navigation ─────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,9,13,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--pad-page);
+  display: flex;
+  align-items: center;
+  height: 46px;
+}
+.nav-logo {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  margin-right: 36px;
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--gold) }
+.nav a {
+  font-size: var(--fs-caption);
+  color: var(--muted2);
+  text-decoration: none;
+  padding: 0 16px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.nav a:hover { color: var(--text) }
+.nav a.active { color: var(--gold); border-bottom-color: var(--gold) }
+
+/* ─── Hero / Page Header ─────────────────────────────────────── */
+.hero {
+  padding: 56px var(--pad-page) 44px;
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-size: var(--fs-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin-bottom: 12px;
+}
+.hero-title {
+  font-family: var(--sans);
+  font-size: 34px;
+  font-weight: 600;
+  color: #e0e8f4;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.hero-title span { color: var(--gold) }
+.hero-sub {
+  font-size: 14px;
+  color: var(--muted2);
+  margin-bottom: 36px;
+}
+
+.page-header { padding: 44px var(--pad-page) 0 }
+.page-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.page-title {
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 600;
+  color: #d0daea;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.page-title span { color: var(--gold) }
+.page-sub {
+  font-size: 14px;
+  color: var(--muted2);
+}
+
+/* ─── KPI Row ────────────────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+.kpi { background: var(--s1); padding: 20px 24px }
+.kpi-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.kpi-val {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+}
+.kpi-val.g    { color: var(--green) }
+.kpi-val.gold { color: var(--gold) }
+.kpi-val.w    { color: #e0e8f4 }
+.kpi-val.r    { color: var(--red) }
+.kpi-sub { font-size: var(--fs-caption); color: var(--muted); margin-top: 5px }
+
+/* ─── Layout ─────────────────────────────────────────────────── */
+.page {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 var(--pad-page) 80px;
+}
+.section { margin-top: var(--pad-section) }
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.sec-title {
+  font-family: var(--sans);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.sec-meta { font-size: var(--fs-caption); color: var(--muted) }
+
+/* ─── Grids ──────────────────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px }
+
+/* ─── Card ───────────────────────────────────────────────────── */
+.card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: var(--pad-card);
+}
+.card-title {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+/* ─── Barometer (T2BE · Stress · Pyramiding) ─────────────────── */
+/*
+ * Verwendung:
+ *   <div class="baro baro-green">
+ *     <div class="baro-fill" style="width:30%"></div>
+ *   </div>
+ *
+ * Schwellenwerte:
+ *   T2BE:   grün ≤ 2 Min · gelb 2–10 Min · rot > 10 Min
+ *   Stress: grün ≤ 1% DD · gelb 1–3% · rot > 3%
+ */
+.baro {
+  height: 8px;
+  background: var(--border2);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.baro-fill {
+  height: 100%;
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: width 0.4s ease;
+}
+.baro-green  .baro-fill { background: var(--green) }
+.baro-yellow .baro-fill { background: var(--gold) }
+.baro-red    .baro-fill { background: var(--red) }
+
+.baro-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.baro-val {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.baro-val.green  { color: var(--green) }
+.baro-val.yellow { color: var(--gold) }
+.baro-val.red    { color: var(--red) }
+
+/* ─── Benchmark Bars ─────────────────────────────────────────── */
+.bench-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 11px;
+}
+.bench-name {
+  font-size: 14px;
+  color: var(--muted2);
+  width: 230px;
+  flex-shrink: 0;
+}
+.bench-track {
+  flex: 1;
+  height: 5px;
+  background: var(--border2);
+  position: relative;
+}
+.bench-fill {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.bench-num {
+  font-size: 14px;
+  font-weight: 500;
+  width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ─── Tags / Badges ──────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 2px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.tag.r    { background: rgba(232,88,88,0.12);  color: var(--red) }
+.tag.g    { background: rgba(56,200,122,0.12); color: var(--green) }
+.tag.gold { background: rgba(232,184,75,0.12); color: var(--gold) }
+.tag.m    { background: rgba(53,64,87,0.3);    color: var(--muted2) }
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 2px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.badge.ev { background: rgba(232,184,75,0.12); color: var(--gold) }
+.badge.ok { background: rgba(56,200,122,0.12); color: var(--green) }
+.badge.op { background: rgba(53,64,87,0.2);    color: var(--muted2) }
+
+/* ─── Tooltips ───────────────────────────────────────────────── */
+[data-tip] { position: relative; cursor: default }
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 108%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  padding: 5px 10px;
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+  z-index: 20;
+  pointer-events: none;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ─── Bar Chart (Stunden) ────────────────────────────────────── */
+.bar-chart {
+  display: flex;
+  gap: 3px;
+  height: 100px;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  min-height: 3px;
+}
+
+/* ─── Tables ─────────────────────────────────────────────────── */
+.beh-table { width: 100%; border-collapse: collapse }
+.beh-table th {
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+.beh-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid rgba(26,32,48,0.7);
+  vertical-align: top;
+  font-size: 14px;
+}
+.beh-table tr:last-child td { border-bottom: none }
+
+/* ─── Hypothesen ─────────────────────────────────────────────── */
+.hypo {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 18px 22px;
+}
+.hypo-id {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.hypo-text {
+  font-size: var(--fs-body);
+  color: var(--text);
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+.hypo-ev {
+  font-size: var(--fs-sm);
+  color: var(--muted2);
+  line-height: 1.65;
+}
+
+/* ─── Insight Blocks ─────────────────────────────────────────── */
+.insight {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--gold);
+  padding: 18px 22px;
+  margin-bottom: 12px;
+}
+.insight h4 {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.insight p {
+  font-size: var(--fs-body);
+  color: var(--text);
+  line-height: 1.85;
+}
+.insight.g { border-left-color: var(--green) }
+.insight.g h4 { color: var(--green) }
+.insight.r { border-left-color: var(--red) }
+.insight.r h4 { color: var(--red) }
+.ins-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+/* ─── Session Blocks ─────────────────────────────────────────── */
+.sess-block {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  margin-bottom: 44px;
+}
+.sess-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sess-name {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: #d8e2f4;
+  margin-bottom: 4px;
+}
+.sess-date { font-size: var(--fs-sm); color: var(--muted2) }
+.sess-pnl  { font-family: var(--sans); font-size: 30px; font-weight: 600 }
+.sess-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.stat {
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none }
+.stat-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.stat-val { font-family: var(--sans); font-size: 18px; font-weight: 600 }
+.sess-body { padding: 26px 28px }
+
+/* ─── Chart Blocks ───────────────────────────────────────────── */
+.chart-block { margin-bottom: 32px }
+.chart-title {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted2);
+  margin-bottom: 8px;
+}
+.chart-ann {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  border: 1px solid var(--border);
+  border-top: none;
+  background: var(--s2);
+}
+.ann-col {
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+.ann-col:last-child { border-right: none }
+.ann-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+.ann-body {
+  font-size: var(--fs-body);
+  color: var(--text);
+  line-height: 1.8;
+}
+.ann-list { list-style: none; padding: 0 }
+.ann-list li {
+  font-size: var(--fs-body);
+  line-height: 1.75;
+  padding: 3px 0;
+}
+.ann-list.green li::before { content: "✓ "; color: var(--green) }
+.ann-list.red   li::before { content: "✗ "; color: var(--red) }
+
+/* ─── Observations Page ──────────────────────────────────────── */
+.obs-block {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  margin-bottom: 44px;
+}
+.obs-head {
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.obs-id {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.obs-name {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: #d8e2f4;
+}
+.obs-body { padding: 24px 28px }
+.obs-section-title {
+  font-family: var(--sans);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  margin: 20px 0 8px;
+}
+.obs-section-title:first-child { margin-top: 0 }
+.obs-text {
+  font-size: var(--fs-body);
+  color: var(--text);
+  line-height: 1.8;
+}
+.obs-text ul { list-style: none; padding: 0; margin-top: 6px }
+.obs-text ul li { padding: 2px 0; font-size: var(--fs-body); line-height: 1.75 }
+.obs-text ul li::before { content: "— "; color: var(--muted2) }
+.obs-chart { margin-top: 20px }
+.obs-chart img { width: 100%; display: block; border: 1px solid var(--border) }
+.obs-caption {
+  font-size: var(--fs-sm);
+  color: var(--muted2);
+  line-height: 1.6;
+  padding: 10px 14px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-top: none;
+  font-style: italic;
+}
+
+/* ─── Terminology Page ───────────────────────────────────────── */
+.term-block {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.term-head {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 24px;
+  align-items: baseline;
+  padding: 14px 22px;
+  cursor: pointer;
+}
+.term-name {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: #d8e2f4;
+}
+.term-short {
+  font-size: var(--fs-sm);
+  color: var(--muted2);
+  line-height: 1.5;
+}
+.term-body {
+  padding: 0 22px 16px;
+  font-size: var(--fs-body);
+  color: var(--text);
+  line-height: 1.8;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+}
+
+/* ─── SVG Equity Chart ───────────────────────────────────────── */
+svg.equity { width: 100%; height: 220px; display: block }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.footer {
+  margin-top: 72px;
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-caption);
+  color: var(--muted);
+}

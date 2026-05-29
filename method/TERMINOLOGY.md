@@ -1,119 +1,119 @@
-<!-- Version: 1.3 | Letzte Änderung: 2026-05-29 -->
-# Terminology
-*Combination of standard trading terminology and proprietary terms.
-All terms are in English for universal AI readability. Continuously updated.*
+<!-- Version: 1.4 | Last updated: 2026-05-29 -->
+# Terminology & KPI Glossary
+
+*All terms used in the trading method, reports, and dashboard.*
+*Language: English (consistent with all method files)*
 
 ---
 
-## Proprietary Terms
+## Market Structure Terms
 
-### Aircushion
-Stable, constant gap between price and SMA20 during a trend phase.
-Intact aircushion = trend is running. Collapsing aircushion (price approaches SMA20) = warning signal for trend end.
-The longer the aircushion stays stable, the stronger the trend phase.
+**Aircushion**
+The visible gap between the current price and the SMA20. When price is in a trend, it stays above (long) or below (short) the SMA20 with a consistent gap. A healthy aircushion = trend is stable. A collapsing aircushion = trend is weakening.
 
-### Battle Zone
-Price zone where buyers and sellers fight — identifiable by repeated reversals and tight range.
-**Breakout from Battle Zone = strong entry signal.**
-Key: no return after breakout confirms the trend.
+**Barbwire**
+A cluster of candles with long wicks in both directions and small bodies, forming around a flat SMA20. The market is undecided. Often precedes a strong directional move. See SITUATIONS.md for the full pattern definition.
 
-### Barbwire
-A price area where candles show long wicks in BOTH directions — up AND down. Small bodies, long wicks. Price is "trembling" in a tight zone, unable to decide direction. Visually resembles barbed wire on a chart.
-Barbwire is NOT an entry signal — it is an **attention signal** that a strong move is building up.
-See `method/SITUATIONS.md` for full documentation.
+**Barbwire Reversal**
+A Barbwire formation that resolves into a strong move, typically against the prior trend direction. See H5 in HYPOTHESES.md.
 
-### Barbwire Reversal
-Specific situation where Barbwire occurs in a context suggesting an upcoming strong move — typically against the prior trend.
-Signal constellation: horizontal SMA20 + fast SMA crossing + Barbwire candles + compressed Bollinger Bands.
-First documented: JAPAN225, 2026-05-29.
+**Market Synchronicity**
+When multiple correlated instruments (e.g. USTEC, US30, SPX) enter the same Bollinger phase simultaneously. Amplifies the expected move. Use as confirmation before scaling.
 
-### Kickstarten
-Deliberate risk management technique: after entering a counter-trend trade (trading against the prior direction, e.g. shorting at a breakout point in an uptrend), the stop loss is moved to just above break-even as soon as the trade shows a small profit.
-**Purpose:** If the market reverses and proves the counter-trend trade wrong, the position exits automatically with minimal loss rather than a large one. Better to be stopped out small than to hold through a full reversal.
-**Known risk:** In fast-moving markets, slippage can cause the fill price to be significantly worse than the stop price — turning a break-even exit into a small loss.
-**Example:** 2026-05-29 Japan session 00:20 UTC — Short position kickstarted, stop triggered, ~120 points slippage caused -$801 instead of ~$0. Technique correctly applied, execution unfavorable due to market speed.
+**PDH / PDL**
+Previous Day High / Previous Day Low. Key reference levels for context and bias.
 
-### Target Derangement Syndrome (TDS)
-Psychological error that occurs when price is already 60–80% toward a target but momentum has already reversed.
-**Sequence:** Price near target → momentum reverses → instead of exiting, position is scaled up because "so close" → price runs against → large losses.
-**Important:** TDS is NOT the unrealistic target itself (that can be a deliberate Spike Catcher) — it's holding onto the target despite reversed momentum combined with scaling up.
+**PWH / PWL / PWM**
+Previous Week High / Low / Mid. Wider context levels.
 
-### Spike Catcher
-Deliberately far-away limit order that is NOT set as a realistic target but to automatically capture unexpected strong moves (spikes).
-Used together with a close Mental Stop.
-Not TDS — because the expectation was never that the target would be reached.
+**TDS (Trend Decision Spot)**
+The moment when a ranging market makes its first committed move in one direction — visible as the first candle that closes clearly beyond the Bollinger Band after a compression phase.
 
-### Mental Stop
-Subjective, experience-based feeling of when a trade is "wrong" — triggers early, often before price reaches a technical level. Protects the individual trade. Closer to price than the Account Fuse.
+---
 
-### Account Fuse
-The hard daily loss limit that protects the account — regardless of whether the trade setup still appears intact. Rarely triggered. Absolute lower boundary. Triggers significantly later than the Mental Stop.
+## Trade Management Terms
 
-### Market Synchronicity
-State when multiple markets (USTEC, US30, GER40, SPX) simultaneously show the same phase or pattern.
-Inspired by the metronome experiment: 5 metronomes on a shared platform synchronize themselves.
-**Types:**
-- Candle Sync: candles form similar patterns simultaneously
-- Bollinger Phase Sync: markets are simultaneously in range or trend phase
+**Anchor Trade**
+The single best trade in a session — the one held longest, scaled correctly, and exited at target. Benchmark for all other trades in the session.
 
-### Frontrunner
-Market that leads within a synchronized move. Sets direction and timing.
+**Account Fuse**
+A hard daily loss limit (e.g. 5% of account). If hit, trading stops for the day. Non-negotiable.
 
-### Laggard
-Market that follows. Offers entry opportunities based on Frontrunner signal.
+**Mental Stop**
+A stop loss level held in mind rather than placed in the order book, to avoid stop hunts. Requires discipline. Only valid when the trader is actively watching.
 
-### Anticyclical Marker
-Instrument not directly traded but used as context indicator.
-**Example:** OILGAS (Oil) often runs counter to equity indices.
+**Pyramiding**
+Adding to a position as it moves in the intended direction. Requires a stable aircushion. See Profit Pyramiding vs Loss Pyramiding below.
 
-### Anchor Trade
-The decisive trade of a day — usually the biggest winner that sets the tone.
-**Example:** 2026-05-28 11:13 USTEC Long +$2,911
+**Spike Catcher**
+A limit order placed at a key level to catch a sudden price spike. Typically used at support/resistance with a tight stop just beyond the level.
+
+**Kickstarten**
+A deliberate risk management technique: entering a position with a stop loss placed just beyond the entry price (near break-even). If the market moves in your direction, the stop trails up. If not, the loss is minimal. The goal is to initiate a position at a key level with minimal risk before the expected move. Note: subject to slippage in fast markets.
+
+---
+
+## KPI Definitions (v2.0)
+
+### T2BE — Time to Break-Even
+**What it measures:** How long from the first partial entry until the trade cluster never goes into unrealised loss again.
+**Why it matters:** A short T2BE means the entry timing was precise — the market moved in your direction immediately. A long T2BE means you were sweating in drawdown before the trade worked out.
+**Values:** Avg_T2BE · Min_T2BE · Max_T2BE
+**Barometer thresholds:**
+- GREEN: <= 2 minutes (immediate confirmation)
+- YELLOW: 2–10 minutes (acceptable stress)
+- RED: > 10 minutes (high stress, potential entry timing issue)
+
+### HSR — Hold-to-Scalp Ratio
+**What it measures:** Ratio of realised PnL to the potential PnL at the initial take-profit target.
+**Formula:** Realised PnL / Potential PnL at initial TP
+**Why it matters:** A low HSR means you closed too early (fear scalping). A high HSR means you held with conviction.
+**Example:** Initial TP at +$500, realised +$350 → HSR = 0.70 (70%)
+
+### ITPE — Initial TP Efficiency
+**What it measures:** How often the initial TP target was actually reached, broken down by TP type.
+**TP Types (classified by 5M ATR):**
+- Normal TP: distance from entry to TP is within 2 × ATR
+- Extreme TP: distance exceeds 3 × ATR — these are the "magnet targets" (key levels, round numbers, structure highs/lows)
+**Measurement stages:** 30% · 50% · 80% · 100% of the distance to the initial TP, based on maximum price excursion during hold time.
+**Why it matters:** Extreme TPs with high ITPE confirm that key levels act as magnets. Normal TPs with low ITPE signal premature exits.
+
+### Profit Pyramiding (PP)
+**What it is:** Adding to a position while the overall cluster is in unrealised profit. The correct way to scale.
+**Metrics tracked:**
+- Net_PnL_PP: total net profit from PP clusters
+- Worst_Loss_PP: the biggest single loss from a PP cluster (risk of giving back gains)
+- Most_Lucrative_PP: the single best PP cluster (date + asset)
+- Max_Cluster_DD_PP: deepest unrealised drawdown within a PP cluster
+- Avg_Cluster_DD_PP: average unrealised drawdown in PP clusters
+
+### Loss Pyramiding (LP)
+**What it is:** Adding to a position while the overall cluster is in unrealised loss. High risk if done blindly. Can be valid as a deliberate tactic — see Key-Level Validation Strategy in OBSERVATIONS.md.
+**Metrics tracked:**
+- Net_PnL_LP: total net profit/loss from LP clusters
+- Worst_Loss_LP: the biggest single loss from an LP cluster
+- Most_Lucrative_LP: the single best LP cluster (date + asset)
+- Max_Cluster_DD_LP: deepest unrealised drawdown within an LP cluster
+- Avg_Cluster_DD_LP: average unrealised drawdown in LP clusters
+
+### Risiko-Stressbarometer (Stress Barometer)
+**What it measures:** The psychological stress level of a session based on the maximum cluster drawdown relative to account size.
+**Three dimensions:** PP stress · LP stress · T2BE stress (reported separately)
+**Thresholds:**
+- GREEN: cluster drawdown <= 1% of account (comfortable, in control)
+- YELLOW: cluster drawdown 1–3% of account (elevated stress, monitor closely)
+- RED: cluster drawdown > 3% of account (acute stress, high risk of emotional decision-making)
+**Where shown:** Directly in the Session Screenshots section for visual stress post-analysis.
 
 ---
 
 ## Behaviour Patterns
 
-### FOMO Top Scale (Pattern #1)
-Late entry into an already far-moved position + immediately scaling to maximum.
-Double risk: bad entry price + no buffer reserve.
-Mental Stop triggers even though setup is often still intact.
-**Example:** 2026-05-28 12:15 USTEC Long −$966
+**Pattern #1 — FOMO Top Scale**
+Late entry into an already extended move, immediately scaling to maximum size without buffer reserve. Triggered by the fear of missing out on a trade that has already moved far.
 
-### Context Switch Exit (Pattern #2)
-External event (appointment, distraction) forces a trading decision under pressure.
-**Variants:** Premature exit, or entry into a trade that doesn't match the setup.
-**Example:** 2026-05-28 13:58 USTEC Short −$336 (dinner appointment)
+**Pattern #2 — Context Switch Exit**
+An external event (appointment, distraction, interruption) forces a trading decision under time pressure — premature exit or wrong direction entry.
 
-### Concentration Loss (Pattern #3)
-Reduced focus due to parallel activities (conversations, distractions) leads to missing obvious signals and underperformance.
-**Example:** 2026-05-29 Japan session — Barbwire Reversal partially missed due to conversation with Claude. Potential ~$5,000, realized ~$1,763.
-
----
-
-## Standard Terminology
-
-### SMA (Simple Moving Average)
-- **SMA20:** Short-term trend, main reference for aircushion and phase detection
-- **SMA200:** Long-term trend, breakout = strong signal
-
-### PDH / PDL
-Previous Day High / Previous Day Low.
-
-### PWH / W
-Previous Week High / Weekly Level.
-
-### SMA Crossing
-SMA20 crosses SMA200. Strong trend signal.
-
-### Bollinger Bands (BB 20)
-Volatility band around SMA20 (±2 standard deviations).
-
-### Pyramiding
-Stepwise increase of position size while a trade runs. Style: 10-unit blocks up to 30-40 units.
-
-### Confluence
-Multiple independent signals pointing in the same direction simultaneously.
-
-### Daily Bias
-Overall directional expectation for the day based on the 1D chart.
+**Pattern #3 — Concentration Loss**
+Reduced attention due to parallel activities leads to missing clear signals or underperforming in obvious setups. Often accompanied by overtrading in the distracted state.
