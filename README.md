@@ -38,21 +38,6 @@ The Model Context Protocol (MCP) filesystem tool has strict payload size limitat
 
 ---
 
-## Technical Limit: Large File Protocol — MCP Payload Blockages
-**CRITICAL — READ BEFORE ANY FILE GENERATION OR CSV UPDATE**
-
-The MCP filesystem tool has strict payload size limits. Writing large HTML reports or bulk CSV appends via write_file will fail silently or produce truncated output.
-
-### Mandatory Rules for AI Agents
-
-1. **NO DIRECT WRITING of HTML or large files via MCP.** write_file for reports fails above ~50KB.
-2. **WRITE SMALL SCRIPTS via MCP, execute them locally.** Scripts are small — their output is not.
-3. **HTML Generation:** Update generate_reports.py via MCP → Martin runs: `python3 scripts/generate_reports.py`
-4. **CSV Updates:** Update parser script via MCP → Martin runs it → verify via read_file
-5. **Symptom recognition:** Write appears to succeed but file is unchanged → MCP limit hit → switch to scripts.
-
----
-
 ## Document Architecture
 
 | Path | Function | Version | Access |
