@@ -19,6 +19,22 @@ This repository is the central brain of the trading development system for Marti
 cd ~/Downloads && unzip -o ZIPNAME.zip -d ~/Documents/ && cd ~/Documents/Trading && git add -A && git commit -m "vX.X - description" && git push origin main
 ```
 
+
+---
+
+## Technical Limit: Large File Protocol — MCP Payload Blockages
+**CRITICAL — READ BEFORE ANY FILE GENERATION OR CSV UPDATE**
+
+The Model Context Protocol (MCP) filesystem tool has strict payload size limitations. Attempting to write large raw strings — complete HTML reports or bulk CSV appends — directly through MCP write_file will fail silently, produce truncated output, or crash the session.
+
+### Mandatory Rules for AI Agents
+
+1. **NO DIRECT WRITING of HTML or large files via MCP.** write_file for reports or large CSVs will fail.
+2. **WRITE SMALL SCRIPTS via MCP, execute them locally.** Scripts are small — the output they generate is not.
+3. **HTML Generation:** Update generate_reports.py via MCP → Martin runs: python3 scripts/generate_reports.py
+4. **CSV Updates:** Update parser script via MCP → Martin runs it → verify via read_file
+5. **Symptom:** Write appears to succeed but file is unchanged or truncated → MCP limit hit → use scripts instead.
+
 ---
 
 ## Document Architecture
